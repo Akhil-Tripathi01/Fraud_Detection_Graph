@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fraud_Detection_Graph</title>
+    <style>
+      :root {
+        --bg: #f6f8f7;
+        --ink: #1f2d28;
+        --muted: #5e746b;
+        --card: #ffffff;
+        --code: #0f1f1a;
+        --accent: #117a4f;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Segoe UI", Tahoma, sans-serif; }
+      .wrap { max-width: 980px; margin: 0 auto; padding: 18px; }
+      .header { margin-bottom: 12px; }
+      .header h1 { margin: 0; }
+      .header p { margin: 4px 0 0; color: var(--muted); }
+      .topbar {
+        display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 14px;
+      }
+      .cell {
+        background: var(--card);
+        border: 1px solid #d8e2dd;
+        border-radius: 10px;
+        padding: 14px;
+        margin-bottom: 12px;
+      }
+      .md h2 { margin: 0 0 6px; }
+      .md p, .md li { color: var(--muted); line-height: 1.45; }
+      .code .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+      .lang { font-size: 12px; color: var(--muted); }
+      button {
+        border: 0; border-radius: 8px; background: var(--accent); color: white;
+        padding: 7px 11px; cursor: pointer; font-weight: 600;
+      }
+      .in {
+        padding: 7px 9px; border: 1px solid #c8d8d1; border-radius: 8px; font: inherit; width: 120px;
+      }
+      pre {
+        margin: 0; padding: 10px; border-radius: 8px;
+        background: var(--code); color: #d6ffe8; overflow: auto; font-size: 13px;
+      }
+      .out {
+        margin-top: 8px; border: 1px solid #d8e2dd; border-radius: 8px;
+        background: #fcfefd; padding: 10px; font-family: Consolas, monospace; font-size: 13px; white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="header">
+        <h1>Fraud_Detection_Graph</h1>
+        <p>Interactive, Jupyter-like workflow for Step 1 to Step 10.</p>
+      </div>
+      <div class="topbar">
+        <button id="runAllBtn">Run All Cells</button>
+        <button id="statusBtn">Model Status</button>
+        <button id="saveBtn">Save Model</button>
+        <button id="loadBtn">Load Latest Model</button>
+        <button id="modelsBtn">List Saved Models</button>
+      </div>
+
+      <section class="cell md">
+        <h2>Step 1: Data Loading & Exploratory Data Analysis</h2>
+        <p>Load data profile with fraud rate, amount stats, channel/country distributions, and risky devices.</p>
+      </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="profile">Run Cell</button>
+        </div>
+        <pre>GET /api/ml/data-profile</pre>
+        <div id="out-profile" class="out">Not executed.</div>
+      </section>
+
+      <section class="cell md">
+        <h2>Step 2-6: Graph Construction, Features, Model Building, Training</h2>
+        <p>Train the pipeline on synthetic transaction graph data.</p>
+      </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="train">Run Cell</button>
+        </div>
+        <pre>POST /api/ml/train
+{
+  "n_transactions": &lt;input&gt;,
+  "n_accounts": &lt;input&gt;,
+  "fraud_rate": &lt;input&gt;,
+  "random_seed": &lt;input&gt;
+}</pre>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+          <input class="in" id="nTx" type="number" value="3000" min="500" max="20000" />
+          <input class="in" id="nAccounts" type="number" value="500" min="100" max="5000" />
+          <input class="in" id="fraudRate" type="number" value="0.08" min="0.01" max="0.5" step="0.01" />
+          <input class="in" id="seed" type="number" value="42" min="1" max="99999" />
+        </div>
+        <div id="out-train" class="out">Not executed.</div>
+      </section>
+
+      <section class="cell md">
+        <h2>Step 7-8: Evaluation & Visualization Inputs</h2>
+        <p>Fetch model diagnostics (metrics, confusion matrix, feature importances).</p>
+      </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="report">Run Cell</button>
+        </div>
+        <pre>GET /api/ml/report</pre>
+        <div id="out-report" class="out">Not executed.</div>
+      </section>
+
+      <section class="cell md">
+        <h2>Step 9: Inference Function</h2>
+        <p>Predict account-level fraud probability and risk tier.</p>
+      </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="predict">Run Cell</button>
+        </div>
+        <pre>POST /api/ml/predict
+{
+  "account_id": "ACC_0001",
+  "threshold": &lt;input&gt;
+}</pre>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+          <input class="in" id="predictAccount" type="text" value="ACC_0001" />
+          <input class="in" id="threshold" type="number" value="0.50" min="0.05" max="0.95" step="0.01" />
+        </div>
+        <div id="out-predict" class="out">Not executed.</div>
+      </section>
+
+      <section class="cell md">
+        <h2>Step 10: Real-World Transaction Simulation</h2>
+        <p>Generate real-time alert style outputs.</p>
+      </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="simulate">Run Cell</button>
+        </div>
+        <pre>GET /api/ml/simulate?n=5</pre>
+        <div id="out-simulate" class="out">Not executed.</div>
+      </section>
+
+      <section class="cell md">
+        <h2>Research Cell</h2>
+        <p>Fetch concise findings and recommendations from the research layer.</p>
+      </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="research">Run Cell</button>
+        </div>
+        <pre>GET /api/ml/research</pre>
+        <div id="out-research" class="out">Not executed.</div>
+      </section>
+
+      <section class="cell md">
+        <h2>Model Governance Cell</h2>
+        <p>Inspect saved model metadata and compare two versions.</p>
+      </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="manifest">Run Cell</button>
+        </div>
+        <pre>GET /api/ml/model-manifest</pre>
+        <div id="out-manifest" class="out">Not executed.</div>
+      </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="compare">Run Cell</button>
+        </div>
+        <pre>GET /api/ml/compare?base_tag=&lt;tagA&gt;&candidate_tag=&lt;tagB&gt;</pre>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+          <input class="in" id="baseTag" type="text" placeholder="base tag" style="width:220px;" />
+          <input class="in" id="candidateTag" type="text" placeholder="candidate tag" style="width:220px;" />
+        </div>
+        <div id="out-compare" class="out">Not executed.</div>
+      </section>
+    </div>
+
+    <script>
+      async function callApi(url, options = {}) {
+        const res = await fetch(url, options);
+        const text = await res.text();
+        let data = text;
+        try { data = JSON.parse(text); } catch {}
+        if (!res.ok) throw new Error(typeof data === "string" ? data : JSON.stringify(data, null, 2));
+        return data;
+      }
+
+      function show(id, data) {
+        document.getElementById(id).textContent = typeof data === "string" ? data : JSON.stringify(data, null, 2);
+      }
+
+      async function run(which) {
+        try {
+          if (which === "profile") show("out-profile", await callApi("/api/ml/data-profile"));
+          if (which === "train") show("out-train", await callApi("/api/ml/train", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              n_transactions: Number(document.getElementById("nTx").value),
+              n_accounts: Number(document.getElementById("nAccounts").value),
+              fraud_rate: Number(document.getElementById("fraudRate").value),
+              random_seed: Number(document.getElementById("seed").value)
+            })
+          }));
+          if (which === "report") show("out-report", await callApi("/api/ml/report"));
+          if (which === "predict") show("out-predict", await callApi("/api/ml/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              account_id: document.getElementById("predictAccount").value,
+              threshold: Number(document.getElementById("threshold").value)
+            })
+          }));
+          if (which === "simulate") show("out-simulate", await callApi("/api/ml/simulate?n=5"));
+          if (which === "research") show("out-research", await callApi("/api/ml/research"));
+          if (which === "status") show("out-report", await callApi("/api/ml/status"));
+          if (which === "save") show("out-report", await callApi("/api/ml/save", { method: "POST" }));
+          if (which === "load") show("out-report", await callApi("/api/ml/load", { method: "POST" }));
+          if (which === "models") {
+            const models = await callApi("/api/ml/models");
+            show("out-report", models);
+            if (models.length >= 2) {
+              document.getElementById("baseTag").value = models[1];
+              document.getElementById("candidateTag").value = models[0];
+            } else if (models.length === 1) {
+              document.getElementById("baseTag").value = models[0];
+              document.getElementById("candidateTag").value = models[0];
+            }
+          }
+          if (which === "manifest") show("out-manifest", await callApi("/api/ml/model-manifest"));
+          if (which === "compare") {
+            const base = encodeURIComponent(document.getElementById("baseTag").value);
+            const cand = encodeURIComponent(document.getElementById("candidateTag").value);
+            show("out-compare", await callApi(`/api/ml/compare?base_tag=${base}&candidate_tag=${cand}`));
+          }
+        } catch (e) {
+          const map = {
+            profile: "out-profile",
+            train: "out-train",
+            report: "out-report",
+            predict: "out-predict",
+            simulate: "out-simulate",
+            research: "out-research",
+            status: "out-report",
+            save: "out-report",
+            load: "out-report",
+            models: "out-report",
+            manifest: "out-manifest",
+            compare: "out-compare"
+          };
+          show(map[which], `Error: ${e.message}`);
+        }
+      }
+
+      document.querySelectorAll("button[data-run]").forEach((btn) => {
+        btn.addEventListener("click", () => run(btn.dataset.run));
+      });
+      document.getElementById("statusBtn").addEventListener("click", () => run("status"));
+      document.getElementById("saveBtn").addEventListener("click", () => run("save"));
+      document.getElementById("loadBtn").addEventListener("click", () => run("load"));
+      document.getElementById("modelsBtn").addEventListener("click", () => run("models"));
+      document.getElementById("runAllBtn").addEventListener("click", async () => {
+        for (const step of ["profile", "train", "report", "predict", "simulate", "research", "save", "models", "manifest"]) {
+          // keep sequential order like notebook execution
+          await run(step);
+        }
+      });
+    </script>
+  </body>
+</html>

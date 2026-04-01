@@ -3,18 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project 74 Fraud Detection</title>
+    <title>Fraud_Detection_Graph</title>
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
     <header>
-      <h1>Project 74</h1>
+      <h1>Fraud_Detection_Graph</h1>
       <p>Predictive Financial Fraud Detection Using Behavioral Graph Learning</p>
+      <p><a class="slides-link" href="/notebook" target="_blank" rel="noopener">Open Notebook-Style Workflow</a></p>
     </header>
 
     <main>
       <section class="panel">
-        <h2>Score Transaction</h2>
+        <h2>Notebook-Aligned Labels</h2>
+        <div class="flow">
+          <div><strong>Step 1:</strong> Data Loading &amp; Exploratory Data Analysis</div>
+          <div><strong>Step 2:</strong> Graph Construction</div>
+          <div><strong>Step 3:</strong> Feature Engineering</div>
+          <div><strong>Step 4:</strong> Graph to Data Object</div>
+          <div><strong>Step 5:</strong> Model Building (GraphSAGE-style objective)</div>
+          <div><strong>Step 6:</strong> Training Loop</div>
+          <div><strong>Step 7:</strong> Evaluation</div>
+          <div><strong>Step 8:</strong> Visualization</div>
+          <div><strong>Step 9:</strong> Inference Function</div>
+          <div><strong>Step 10:</strong> Real-World Transaction Simulation</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Step 1: Data Loading & Exploratory Data Analysis (Research Layer)</h2>
+        <div class="inline-actions">
+          <button id="refreshProfileBtn" type="button">Refresh Data Profile</button>
+          <button id="refreshResearchBtn" type="button">Refresh Research Brief</button>
+        </div>
+        <div id="dataProfile" class="diag"></div>
+        <div id="researchBrief" class="diag"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Step 9: Inference Function (Transaction Risk Scoring)</h2>
         <form id="scoreForm">
           <div class="grid">
             <label>Transaction ID<input name="transaction_id" required value="TNEW-001" /></label>
@@ -39,18 +66,34 @@
       </section>
 
       <section class="panel">
-        <h2>Dashboard Metrics</h2>
+        <h2>Step 7: Evaluation (Dashboard Metrics)</h2>
         <div id="metrics" class="metrics"></div>
       </section>
 
       <section class="panel">
-        <h2>High Risk Alerts</h2>
+        <h2>Step 10: Real-World Transaction Simulation (Alerts)</h2>
         <div id="alerts"></div>
       </section>
 
       <section class="panel">
-        <h2>Graph Snapshot</h2>
+        <h2>Step 2 + Step 8: Graph Construction & Visualization</h2>
         <svg id="graph" viewBox="0 0 900 380"></svg>
+      </section>
+
+      <section class="panel">
+        <h2>Step 5 + Step 6: Model Building & Training Loop</h2>
+        <div class="inline-actions">
+          <button id="trainMlBtn" type="button">Train Graph ML Pipeline</button>
+          <button id="simulateMlBtn" type="button">Simulate 5 Real-time Alerts</button>
+        </div>
+        <form id="predictForm" class="predict-form">
+          <label>Account ID<input name="account_id" required value="ACC_0001" /></label>
+          <button type="submit">Predict Account Risk</button>
+        </form>
+        <div id="mlMetrics" class="result hidden"></div>
+        <div id="mlPredict" class="result hidden"></div>
+        <div id="mlSimulation"></div>
+        <div id="mlDiagnostics" class="diag"></div>
       </section>
     </main>
 

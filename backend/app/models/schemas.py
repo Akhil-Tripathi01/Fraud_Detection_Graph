@@ -39,3 +39,94 @@ class DashboardMetrics(BaseModel):
     review_count: int
     allow_count: int
     high_risk_percentage: float
+
+
+class MLTrainRequest(BaseModel):
+    n_transactions: int = Field(default=3000, ge=500, le=20000)
+    n_accounts: int = Field(default=500, ge=100, le=5000)
+    fraud_rate: float = Field(default=0.08, gt=0.01, lt=0.5)
+    random_seed: int = Field(default=42, ge=1, le=99999)
+
+
+class MLEvaluationMetrics(BaseModel):
+    accuracy: float
+    precision: float
+    recall: float
+    f1: float
+    roc_auc: float
+    support: int
+
+
+class MLTrainResponse(BaseModel):
+    message: str
+    trained_at: datetime
+    transactions: int
+    accounts: int
+    graph_nodes: int
+    graph_edges: int
+    metrics: MLEvaluationMetrics
+    feature_columns: list[str]
+    top_features: list[dict]
+    confusion_matrix: dict
+
+
+class MLPredictRequest(BaseModel):
+    account_id: str
+    threshold: float = Field(default=0.5, ge=0.05, le=0.95)
+
+
+class MLPredictResponse(BaseModel):
+    account_id: str
+    account_found: bool
+    fraud_probability: float
+    threshold_used: float
+    prediction: int
+    risk_tier: str
+    explanation: list[str]
+
+
+class MLDataProfileResponse(BaseModel):
+    transactions: int
+    accounts: int
+    fraud_rate: float
+    avg_amount: float
+    p95_amount: float
+    channel_distribution: dict
+    country_distribution: dict
+    top_risky_devices: list[dict]
+
+
+class MLResearchResponse(BaseModel):
+    title: str
+    summary: str
+    findings: list[str]
+    recommendations: list[str]
+
+
+class MLStatusResponse(BaseModel):
+    trained: bool
+    trained_at: datetime | None
+    model_count: int
+    latest_model_tag: str | None
+
+
+class MLModelActionResponse(BaseModel):
+    message: str
+    model_tag: str
+
+
+class MLModelManifestResponse(BaseModel):
+    model_tag: str
+    saved_at: datetime
+    trained_at: datetime
+    metrics: dict
+    top_features: list[dict]
+    transaction_count: int
+    account_count: int
+
+
+class MLModelCompareResponse(BaseModel):
+    base_tag: str
+    candidate_tag: str
+    deltas: dict
+    winner: str

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fraud_Detection_Graph - 12 Slide Deck</title>
+    <style>
+      :root {
+        --bg: #0f1f1a;
+        --card: #122821;
+        --ink: #e9fff4;
+        --muted: #b9d8ca;
+        --accent: #2fd285;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: radial-gradient(circle at 20% 0%, #173228, var(--bg) 55%);
+        color: var(--ink);
+      }
+      .wrap { max-width: 980px; margin: 0 auto; padding: 18px; }
+      .controls {
+        position: sticky; top: 0; z-index: 20;
+        display: flex; gap: 8px; align-items: center; justify-content: space-between;
+        background: rgba(8, 18, 14, 0.75); backdrop-filter: blur(3px);
+        border: 1px solid #204136; border-radius: 10px; padding: 10px 12px; margin-bottom: 14px;
+      }
+      button {
+        border: 0; border-radius: 8px; padding: 8px 12px; cursor: pointer;
+        color: #083320; background: var(--accent); font-weight: 700;
+      }
+      .deck { display: grid; gap: 14px; }
+      .slide {
+        min-height: 78vh;
+        background: linear-gradient(160deg, #163329, var(--card));
+        border: 1px solid #2a4d40;
+        border-radius: 14px;
+        padding: 26px;
+        display: none;
+      }
+      .slide.active { display: block; }
+      h1, h2 { margin-top: 0; }
+      h1 { font-size: 36px; }
+      h2 { font-size: 30px; }
+      p, li { color: var(--muted); line-height: 1.45; font-size: 18px; }
+      ul { margin: 10px 0 0 22px; }
+      .big { font-size: 22px; color: var(--ink); }
+      .kpi {
+        display: grid; grid-template-columns: repeat(4, minmax(100px, 1fr)); gap: 8px; margin-top: 12px;
+      }
+      .kpi > div {
+        background: #0f211b; border: 1px solid #2a4e40; border-radius: 10px; padding: 10px;
+      }
+      .kpi b { display: block; font-size: 24px; color: var(--accent); }
+      .small { font-size: 14px; color: #98c3b1; }
+      @media (max-width: 800px) {
+        h1 { font-size: 28px; } h2 { font-size: 24px; } p, li { font-size: 16px; }
+        .kpi { grid-template-columns: repeat(2, minmax(100px, 1fr)); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="controls">
+        <div>
+          <button id="prevBtn">Prev</button>
+          <button id="nextBtn">Next</button>
+        </div>
+        <div id="counter"></div>
+      </div>
+
+      <div class="deck">
+        <section class="slide active">
+          <h1>Fraud_Detection_Graph</h1>
+          <p class="big">Predictive Financial Fraud Detection Using Behavioral Graph Learning</p>
+          <p>12-slide elaborative deck based on your notebook pipeline + improvements inspired by the shared GNN repo and production architecture patterns.</p>
+        </section>
+
+        <section class="slide">
+          <h2>Slide 2 - Problem Context</h2>
+          <ul>
+            <li>Fraud is networked behavior, not isolated events.</li>
+            <li>Rule-only systems miss coordinated rings and new attack patterns.</li>
+            <li>Class imbalance makes naive models overpredict legitimate transactions.</li>
+          </ul>
+        </section>
+
+        <section class="slide">
+          <h2>Slide 3 - Repo Research Takeaways</h2>
+          <ul>
+            <li>Shared repo emphasizes graph representation, imbalance, and privacy concerns.</li>
+            <li>GNN framing is suited for entity linkage: account-device-IP-merchant relationships.</li>
+            <li>Our implementation keeps this graph-first philosophy and adds production APIs.</li>
+          </ul>
+          <p class="small">Reference: github.com/bimbomuri/Fraud_Detection_GNN (README + notebook structure)</p>
+        </section>
+
+        <section class="slide">
+          <h2>Slide 4 - End-to-End Architecture</h2>
+          <ul>
+            <li>Frontend dashboard: training, prediction, simulation, and diagnostics.</li>
+            <li>Backend FastAPI: REST endpoints for scoring, graph, ML metrics, and research.</li>
+            <li>Middle layer: data generation, graph construction, feature engineering, model inference.</li>
+          </ul>
+        </section>
+
+        <section class="slide">
+          <h2>Slide 5 - Data Model and Generation</h2>
+          <ul>
+            <li>Synthetic Elliptic-style transactions with sender, receiver, merchant, device, IP.</li>
+            <li>Fraud ring injection with shared devices/IPs and burst-window timing.</li>
+            <li>Behavior flags: night activity, high-value ratio, cross-border ratio.</li>
+          </ul>
+        </section>
+
+        <section class="slide">
+          <h2>Slide 6 - Graph and Feature Engineering</h2>
+          <ul>
+            <li>Directed account graph with edge transaction/fraud aggregates.</li>
+            <li>Node features: sent/received stats, degree, pagerank, clustering.</li>
+            <li>Extended features: device diversity, IP diversity, merchant diversity.</li>
+          </ul>
+        </section>
+
+        <section class="slide">
+          <h2>Slide 7 - Modeling Strategy</h2>
+          <ul>
+            <li>Baseline model: class-balanced RandomForest for robust tabular + graph features.</li>
+            <li>Diagnostic outputs: confusion matrix and top feature importances.</li>
+            <li>Design keeps interface compatible for future GraphSAGE drop-in upgrade.</li>
+          </ul>
+        </section>
+
+        <section class="slide">
+          <h2>Slide 8 - Evaluation and Diagnostics</h2>
+          <div class="kpi">
+            <div><b>ROC-AUC</b><span>~0.77</span></div>
+            <div><b>F1</b><span>~0.75</span></div>
+            <div><b>Recall</b><span>~0.80</span></div>
+            <div><b>Precision</b><span>~0.70</span></div>
+          </div>
+          <ul>
+            <li>Metrics exposed through `/api/ml/metrics` and `/api/ml/report`.</li>
+            <li>Dashboard shows feature importances and confusion matrix.</li>
+          </ul>
+        </section>
+
+        <section class="slide">
+          <h2>Slide 9 - Real-Time Inference APIs</h2>
+          <ul>
+            <li>`/api/transactions/score` for transaction-level risk decisions.</li>
+            <li>`/api/ml/predict` for account-level fraud probability and risk tier.</li>
+            <li>Unknown account handling improved: deterministic median-profile fallback.</li>
+          </ul>
+        </section>
+
+        <section class="slide">
+          <h2>Slide 10 - Research and Data Intelligence Layer</h2>
+          <ul>
+            <li>`/api/ml/data-profile` gives fraud rate, channel/country mix, risky devices.</li>
+            <li>`/api/ml/research` publishes findings + recommendations for investigators.</li>
+            <li>Turns model output into actionable fraud operations guidance.</li>
+          </ul>
+        </section>
+
+        <section class="slide">
+          <h2>Slide 11 - Deployment and Product Readiness</h2>
+          <ul>
+            <li>FastAPI app with docs, route grouping, and strict request/response schemas.</li>
+            <li>Frontend UI for investigators and model operators on one URL.</li>
+            <li>Automated tests validate service and API behavior.</li>
+          </ul>
+        </section>
+
+        <section class="slide">
+          <h2>Slide 12 - Roadmap (Next Level)</h2>
+          <ul>
+            <li>Integrate PyTorch Geometric GraphSAGE model with checkpoint management.</li>
+            <li>Add drift monitoring and weekly threshold calibration by channel.</li>
+            <li>Enable analyst feedback loop to retrain model from confirmed cases.</li>
+          </ul>
+          <p class="big">Fraud_Detection_Graph is now a full-stack, research-backed, presentation-ready fraud graph platform.</p>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const slides = [...document.querySelectorAll(".slide")];
+      let idx = 0;
+      const counter = document.getElementById("counter");
+      function render() {
+        slides.forEach((s, i) => s.classList.toggle("active", i === idx));
+        counter.textContent = `Slide ${idx + 1} / ${slides.length}`;
+      }
+      document.getElementById("nextBtn").addEventListener("click", () => { idx = Math.min(slides.length - 1, idx + 1); render(); });
+      document.getElementById("prevBtn").addEventListener("click", () => { idx = Math.max(0, idx - 1); render(); });
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") { idx = Math.min(slides.length - 1, idx + 1); render(); }
+        if (e.key === "ArrowLeft") { idx = Math.max(0, idx - 1); render(); }
+      });
+      render();
+    </script>
+  </body>
+</html>

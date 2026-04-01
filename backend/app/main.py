@@ -27,3 +27,13 @@ app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
 @app.get("/", include_in_schema=False)
 def root() -> FileResponse:
     return FileResponse(frontend_dir / "index.html")
+
+
+@app.get("/slides", include_in_schema=False)
+def slides() -> FileResponse:
+    return FileResponse(frontend_dir / "slides.html")
+
+
+@app.get("/notebook", include_in_schema=False)
+def notebook() -> FileResponse:
+    return FileResponse(frontend_dir / "notebook.html")
