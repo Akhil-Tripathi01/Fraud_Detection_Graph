@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project 74 Fraud Detection</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Project 74</h1>
+      <p>Predictive Financial Fraud Detection Using Behavioral Graph Learning</p>
+    </header>
+
+    <main>
+      <section class="panel">
+        <h2>Score Transaction</h2>
+        <form id="scoreForm">
+          <div class="grid">
+            <label>Transaction ID<input name="transaction_id" required value="TNEW-001" /></label>
+            <label>User ID<input name="user_id" required value="U999" /></label>
+            <label>Merchant ID<input name="merchant_id" required value="M89" /></label>
+            <label>Device ID<input name="device_id" required value="D77" /></label>
+            <label>Amount<input name="amount" type="number" min="1" step="0.01" required value="99500" /></label>
+            <label>IP Address<input name="ip_address" required value="182.70.4.24" /></label>
+            <label>Country<input name="country" required value="IN" /></label>
+            <label>Channel
+              <select name="channel">
+                <option value="web">web</option>
+                <option value="mobile">mobile</option>
+                <option value="pos">pos</option>
+                <option value="atm">atm</option>
+              </select>
+            </label>
+          </div>
+          <button type="submit">Run Risk Score</button>
+        </form>
+        <div id="scoreResult" class="result hidden"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Dashboard Metrics</h2>
+        <div id="metrics" class="metrics"></div>
+      </section>
+
+      <section class="panel">
+        <h2>High Risk Alerts</h2>
+        <div id="alerts"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Graph Snapshot</h2>
+        <svg id="graph" viewBox="0 0 900 380"></svg>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

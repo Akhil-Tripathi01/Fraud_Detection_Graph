@@ -1,0 +1,68 @@
+[
+  {
+    "transaction_id": "T1001",
+    "user_id": "U101",
+    "merchant_id": "M12",
+    "device_id": "D45",
+    "amount": 2200.0,
+    "timestamp": "2026-03-29T10:00:00+00:00",
+    "ip_address": "49.32.100.10",
+    "channel": "mobile",
+    "country": "IN"
+  },
+  {
+    "transaction_id": "T1002",
+    "user_id": "U101",
+    "merchant_id": "M16",
+    "device_id": "D45",
+    "amount": 1800.0,
+    "timestamp": "2026-03-29T10:08:00+00:00",
+    "ip_address": "49.32.100.10",
+    "channel": "mobile",
+    "country": "IN"
+  },
+  {
+    "transaction_id": "T1003",
+    "user_id": "U202",
+    "merchant_id": "M89",
+    "device_id": "D77",
+    "amount": 8200.0,
+    "timestamp": "2026-03-29T11:10:00+00:00",
+    "ip_address": "182.70.4.24",
+    "channel": "web",
+    "country": "IN"
+  },
+  {
+    "transaction_id": "T1004",
+    "user_id": "U203",
+    "merchant_id": "M89",
+    "device_id": "D77",
+    "amount": 7900.0,
+    "timestamp": "2026-03-29T11:12:00+00:00",
+    "ip_address": "182.70.4.24",
+    "channel": "web",
+    "country": "IN"
+  },
+  {
+    "transaction_id": "T1005",
+    "user_id": "U204",
+    "merchant_id": "M89",
+    "device_id": "D77",
+    "amount": 8300.0,
+    "timestamp": "2026-03-29T11:14:00+00:00",
+    "ip_address": "182.70.4.24",
+    "channel": "web",
+    "country": "IN"
+  },
+  {
+    "transaction_id": "T1006",
+    "user_id": "U305",
+    "merchant_id": "M40",
+    "device_id": "D90",
+    "amount": 1200.0,
+    "timestamp": "2026-03-29T12:05:00+00:00",
+    "ip_address": "122.166.3.11",
+    "channel": "pos",
+    "country": "IN"
+  }
+]
