@@ -207,6 +207,19 @@
       </section>
 
       <section class="cell md">
+        <h2>Results Summary</h2>
+        <p>Review graph size, precision/recall tradeoff, confusion matrix, and top features in one compact report.</p>
+      </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="results">Run Cell</button>
+        </div>
+        <pre>GET /api/ml/results-summary</pre>
+        <div id="out-results" class="out">Not executed.</div>
+      </section>
+
+      <section class="cell md">
         <h2>Bonus: Real-Time Deployment with FastAPI</h2>
         <p>Inspect runtime model status, persistence, version manifests, and comparisons.</p>
       </section>
@@ -279,6 +292,7 @@
           }));
           if (which === "simulate") show("out-simulate", await callApi("/api/ml/simulate?n=5"));
           if (which === "research") show("out-research", await callApi("/api/ml/research"));
+          if (which === "results") show("out-results", await callApi("/api/ml/results-summary"));
           if (which === "status") show("out-report", await callApi("/api/ml/status"));
           if (which === "save") show("out-report", await callApi("/api/ml/save", { method: "POST" }));
           if (which === "load") show("out-report", await callApi("/api/ml/load", { method: "POST" }));
@@ -307,6 +321,7 @@
             predict: "out-predict",
             simulate: "out-simulate",
             research: "out-research",
+            results: "out-results",
             status: "out-report",
             save: "out-report",
             load: "out-report",
@@ -326,7 +341,7 @@
       document.getElementById("loadBtn").addEventListener("click", () => run("load"));
       document.getElementById("modelsBtn").addEventListener("click", () => run("models"));
       document.getElementById("runAllBtn").addEventListener("click", async () => {
-        for (const step of ["profile", "train", "report", "predict", "simulate", "research", "save", "models", "manifest"]) {
+        for (const step of ["profile", "train", "report", "predict", "simulate", "research", "results", "save", "models", "manifest"]) {
           // keep sequential order like notebook execution
           await run(step);
         }

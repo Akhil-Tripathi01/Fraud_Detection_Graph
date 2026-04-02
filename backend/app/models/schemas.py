@@ -122,6 +122,16 @@ class MLResearchResponse(BaseModel):
     recommendations: list[str]
 
 
+class MLResultsSummaryResponse(BaseModel):
+    title: str
+    graph_overview: dict
+    performance: dict
+    confusion_matrix: dict
+    priority_note: str
+    top_features: list[dict]
+    recommendations: list[str]
+
+
 class MLStatusResponse(BaseModel):
     trained: bool
     trained_at: datetime | None

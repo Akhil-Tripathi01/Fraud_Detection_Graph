@@ -34,6 +34,13 @@ def test_ml_api_train_report_predict():
     assert "findings" in research and len(research["findings"]) > 0
     assert "recommendations" in research and len(research["recommendations"]) > 0
 
+    results_resp = client.get("/api/ml/results-summary")
+    assert results_resp.status_code == 200
+    results = results_resp.json()
+    assert "graph_overview" in results
+    assert "performance" in results
+    assert "priority_note" in results
+
     predict_resp = client.post("/api/ml/predict", json={"account_id": "ACC_UNKNOWN_001"})
     assert predict_resp.status_code == 200
     pred = predict_resp.json()

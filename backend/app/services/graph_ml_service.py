@@ -355,6 +355,38 @@ class GraphMLService:
             "recommendations": recommendations,
         }
 
+    def results_summary(self) -> dict:
+        self.ensure_trained()
+        assert self.artifacts is not None
+
+        performance = self.artifacts.metrics
+        precision = performance["precision"]
+        recall = performance["recall"]
+        priority_note = (
+            "Precision currently leads recall, which is useful when false positives are costly to customer experience."
+            if precision >= recall
+            else "Recall currently leads precision, which is useful when fraud capture is the main priority."
+        )
+
+        return {
+            "title": "Graph Fraud Detection Results Summary",
+            "graph_overview": {
+                "transactions": self.artifacts.transaction_count,
+                "accounts": self.artifacts.account_count,
+                "graph_nodes": self.artifacts.graph_nodes,
+                "graph_edges": self.artifacts.graph_edges,
+            },
+            "performance": performance,
+            "confusion_matrix": self.artifacts.confusion_matrix,
+            "priority_note": priority_note,
+            "top_features": self.artifacts.top_features,
+            "recommendations": [
+                "Track precision and recall by channel before changing production thresholds.",
+                "Compare each saved model against the latest deployed model before promotion.",
+                "Swap in a PyTorch Geometric or DGL model later without changing the outer API shape.",
+            ],
+        }
+
     def predict_account(self, account_id: str, threshold: float = 0.5) -> dict:
         self.ensure_trained()
         assert self.model is not None

@@ -2,6 +2,8 @@
 
 This repository was reshaped to feel closer to the reference project at `bimbomuri/Fraud_Detection_GNN`, but with a stronger end-to-end implementation. It keeps the notebook-first research feel while also delivering a working FastAPI backend, middle-layer fraud logic, and a live frontend dashboard.
 
+It also now borrows a second useful pattern from `waittim/graph-fraud-detection`: staged notebooks, explicit `data/model/output` folders, and a simple training entrypoint.
+
 ## Introduction
 
 Fraud detection benefits from graph-based learning because suspicious behavior is often relational rather than isolated. Shared devices, shared IPs, burst timing, repeated merchant patterns, and account-to-account connectivity can expose fraud rings that row-wise models miss.
@@ -16,8 +18,17 @@ This repository now combines:
 ## Repository Layout
 
 - [Fraud_Detection.ipynb](Fraud_Detection.ipynb): notebook-style walkthrough inspired by the reference repo
+- [10_data_loader.ipynb](10_data_loader.ipynb): staged data-preparation notebook
+- [20_modeling.ipynb](20_modeling.ipynb): staged modeling notebook
+- [30_visual.ipynb](30_visual.ipynb): staged results/visual notebook
 - [Dataset/README.md](Dataset/README.md): dataset notes
 - [Dataset/example_cases_100.json](Dataset/example_cases_100.json): `100` generated example cases
+- [data/README.md](data/README.md): prepared-data folder
+- [model/README.md](model/README.md): model artifact folder
+- [output/README.md](output/README.md): output artifact folder
+- [ieee-data/README.md](ieee-data/README.md): placeholder for external raw datasets
+- [gnn/README.md](gnn/README.md): placeholder for future graph deep-learning modules
+- [train.py](train.py): standalone training script
 - [frontend/index.html](frontend/index.html): full web frontend
 - [frontend/notebook.html](frontend/notebook.html): notebook-like browser view
 - [backend/app/main.py](backend/app/main.py): FastAPI entrypoint
@@ -57,6 +68,7 @@ Main tools:
 - `scikit-learn` for the current production-ready baseline
 - `FastAPI` for serving APIs and the frontend
 - `HTML`, `CSS`, and `JavaScript` for the connected web interface
+- staged notebooks for data, modeling, and visual interpretation
 
 Future-ready path:
 - `PyTorch Geometric`
@@ -103,6 +115,7 @@ Open:
 - `GET /api/ml/simulate`
 - `GET /api/ml/data-profile`
 - `GET /api/ml/research`
+- `GET /api/ml/results-summary`
 - `GET /api/ml/status`
 - `POST /api/ml/save`
 - `POST /api/ml/load`
@@ -113,6 +126,12 @@ Open:
 
 ```powershell
 pytest -q
+```
+
+Standalone training:
+
+```powershell
+python train.py
 ```
 
 ## Improvement Over the Reference Repo
