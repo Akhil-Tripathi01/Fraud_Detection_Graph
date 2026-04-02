@@ -4,3 +4,4 @@ __pycache__/
 .run/
 backend/app/data/models/*.pkl
 .ipynb_checkpoints/
+output/*.json

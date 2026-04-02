@@ -1,22 +1,20 @@
-from backend.app.services.graph_ml_service import graph_ml_service
+from __future__ import annotations
+
+import argparse
+import json
+
+from fraud_detection.config import load_config
+from fraud_detection.pipeline import run_training
 
 
 def main() -> None:
-    artifacts = graph_ml_service.train_pipeline(
-        n_transactions=3000,
-        n_accounts=500,
-        fraud_rate=0.08,
-        random_seed=42,
-    )
-    model_tag = graph_ml_service.save_model()
+    parser = argparse.ArgumentParser(description="Train the fraud detection pipeline from a config file.")
+    parser.add_argument("--config", default="configs/default_training.json", help="Path to JSON config file.")
+    args = parser.parse_args()
+
+    result = run_training(load_config(args.config))
     print("Training complete")
-    print(f"trained_at={artifacts.trained_at}")
-    print(f"accuracy={artifacts.metrics['accuracy']}")
-    print(f"precision={artifacts.metrics['precision']}")
-    print(f"recall={artifacts.metrics['recall']}")
-    print(f"f1={artifacts.metrics['f1']}")
-    print(f"roc_auc={artifacts.metrics['roc_auc']}")
-    print(f"saved_model={model_tag}")
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":

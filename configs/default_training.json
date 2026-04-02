@@ -1,0 +1,10 @@
+{
+  "model_name": "random_forest",
+  "model_tag": "config_default_model",
+  "training": {
+    "n_transactions": 3000,
+    "n_accounts": 500,
+    "fraud_rate": 0.08,
+    "random_seed": 42
+  }
+}

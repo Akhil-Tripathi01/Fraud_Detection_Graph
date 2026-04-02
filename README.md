@@ -4,6 +4,8 @@ This repository was reshaped to feel closer to the reference project at `bimbomu
 
 It also now borrows a second useful pattern from `waittim/graph-fraud-detection`: staged notebooks, explicit `data/model/output` folders, and a simple training entrypoint.
 
+A third reference, `arxyzan/fraud-detection-gnn`, pushed this repository toward a cleaner package-oriented structure with config-driven training and a multi-model roadmap.
+
 ## Introduction
 
 Fraud detection benefits from graph-based learning because suspicious behavior is often relational rather than isolated. Shared devices, shared IPs, burst timing, repeated merchant patterns, and account-to-account connectivity can expose fraud rings that row-wise models miss.
@@ -23,12 +25,16 @@ This repository now combines:
 - [30_visual.ipynb](30_visual.ipynb): staged results/visual notebook
 - [Dataset/README.md](Dataset/README.md): dataset notes
 - [Dataset/example_cases_100.json](Dataset/example_cases_100.json): `100` generated example cases
+- [configs/default_training.json](configs/default_training.json): default config-driven training setup
+- [configs/graphsage_experiment.json](configs/graphsage_experiment.json): future-facing GraphSAGE experiment config
 - [data/README.md](data/README.md): prepared-data folder
 - [model/README.md](model/README.md): model artifact folder
 - [output/README.md](output/README.md): output artifact folder
 - [ieee-data/README.md](ieee-data/README.md): placeholder for external raw datasets
 - [gnn/README.md](gnn/README.md): placeholder for future graph deep-learning modules
+- [fraud_detection/](fraud_detection): config-driven experiment package
 - [train.py](train.py): standalone training script
+- [visualize.py](visualize.py): result-summary export script
 - [frontend/index.html](frontend/index.html): full web frontend
 - [frontend/notebook.html](frontend/notebook.html): notebook-like browser view
 - [backend/app/main.py](backend/app/main.py): FastAPI entrypoint
@@ -69,6 +75,7 @@ Main tools:
 - `FastAPI` for serving APIs and the frontend
 - `HTML`, `CSS`, and `JavaScript` for the connected web interface
 - staged notebooks for data, modeling, and visual interpretation
+- config-driven experiment runs inspired by multi-model GNN repositories
 
 Future-ready path:
 - `PyTorch Geometric`
@@ -131,7 +138,13 @@ pytest -q
 Standalone training:
 
 ```powershell
-python train.py
+python train.py --config configs/default_training.json
+```
+
+Results export:
+
+```powershell
+python visualize.py
 ```
 
 ## Improvement Over the Reference Repo

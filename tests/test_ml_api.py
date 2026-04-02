@@ -1,6 +1,8 @@
 from fastapi.testclient import TestClient
 
 from backend.app.main import app
+from fraud_detection.config import load_config
+from fraud_detection.pipeline import run_training
 
 
 def test_ml_api_train_report_predict():
@@ -100,3 +102,12 @@ def test_example_cases_endpoints():
     cases = cases_resp.json()
     assert len(cases) == 100
     assert {"case_id", "scenario", "risk_score", "decision", "transaction"}.issubset(cases[0].keys())
+
+
+def test_config_driven_training_pipeline():
+    config = load_config("configs/default_training.json")
+    result = run_training(config)
+    assert result["model_name"] == "random_forest"
+    assert result["model_info"]["status"] == "implemented"
+    assert result["metrics"]["accuracy"] >= 0
+    assert result["graph_nodes"] > 0
