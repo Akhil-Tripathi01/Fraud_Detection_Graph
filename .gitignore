@@ -5,3 +5,5 @@ __pycache__/
 backend/app/data/models/*.pkl
 .ipynb_checkpoints/
 output/*.json
+.references/
+output/bundles/

@@ -19,6 +19,10 @@ const configPickerEl = document.getElementById("configPicker");
 const runConfigBtn = document.getElementById("runConfigBtn");
 const configStatusEl = document.getElementById("configStatus");
 const visualSummaryEl = document.getElementById("visualSummary");
+const trainingHistoryEl = document.getElementById("trainingHistory");
+const heteroGraphSummaryEl = document.getElementById("heteroGraphSummary");
+const exportBundleBtn = document.getElementById("exportBundleBtn");
+const bundleStatusEl = document.getElementById("bundleStatus");
 const caseSummaryEl = document.getElementById("caseSummary");
 const caseTableBodyEl = document.getElementById("caseTableBody");
 const caseSearchEl = document.getElementById("caseSearch");
@@ -292,6 +296,36 @@ function renderVisualSummary(summary) {
   `;
 }
 
+function renderTrainingHistory(history) {
+  const rows = history.history || [];
+  const maxValue = Math.max(...rows.map((item) => Number(item.roc_auc)), 1);
+  trainingHistoryEl.innerHTML = `
+    <div class="chart-card">
+      <h4>ROC-AUC by Training Step</h4>
+      <div class="bar-list">${renderBarRows(rows.map((item) => ({ label: `S${item.step}`, value: item.roc_auc })), "value", maxValue)}</div>
+    </div>
+  `;
+}
+
+function renderHeteroGraphSummary(summary) {
+  const nodeRows = Object.entries(summary.node_type_counts || {})
+    .map(([key, value]) => `<div class="diag-row">${key}: ${value}</div>`)
+    .join("");
+  const edgeRows = Object.entries(summary.edge_type_counts || {})
+    .map(([key, value]) => `<div class="diag-row">${key}: ${value}</div>`)
+    .join("");
+  heteroGraphSummaryEl.innerHTML = `
+    <div class="diag-card">
+      <h3>${summary.title}</h3>
+      <h4>Node Types</h4>
+      ${nodeRows}
+      <h4>Edge Types</h4>
+      ${edgeRows}
+      <div class="diag-row">Avg out degree: ${summary.graph_density_view?.avg_out_degree ?? "-"}</div>
+    </div>
+  `;
+}
+
 function renderCaseSummary(summary) {
   caseCountHeroEl.textContent = `${summary.total_cases} seeded scenarios`;
   caseSummaryEl.innerHTML = [
@@ -350,7 +384,7 @@ function renderCaseTable() {
 }
 
 async function refreshPlatform() {
-  const [health, metrics, alerts, graph, mlStatus, caseSummary, profile, research, visual, catalog, configs] = await Promise.all([
+  const [health, metrics, alerts, graph, mlStatus, caseSummary, profile, research, visual, catalog, configs, history, hetero] = await Promise.all([
     fetchJson(`${apiBase}/health`),
     fetchJson(`${apiBase}/dashboard/metrics`),
     fetchJson(`${apiBase}/alerts?min_score=70`),
@@ -361,7 +395,9 @@ async function refreshPlatform() {
     fetchJson(`${apiBase}/ml/research`),
     fetchJson(`${apiBase}/ml/visual-summary`),
     fetchJson(`${apiBase}/ml/model-catalog`),
-    fetchJson(`${apiBase}/ml/configs`)
+    fetchJson(`${apiBase}/ml/configs`),
+    fetchJson(`${apiBase}/ml/training-history`),
+    fetchJson(`${apiBase}/ml/hetero-graph-summary`)
   ]);
 
   healthStatusEl.textContent = health.status === "ok" ? "Healthy" : "Check service";
@@ -375,6 +411,8 @@ async function refreshPlatform() {
   renderVisualSummary(visual);
   renderModelCatalog(catalog);
   renderConfigPicker(configs);
+  renderTrainingHistory(history);
+  renderHeteroGraphSummary(hetero);
 }
 
 async function loadExampleCases() {
@@ -507,6 +545,24 @@ runConfigBtn.addEventListener("click", async () => {
   } finally {
     runConfigBtn.disabled = false;
     runConfigBtn.textContent = "Run Config";
+  }
+});
+
+exportBundleBtn.addEventListener("click", async () => {
+  exportBundleBtn.disabled = true;
+  exportBundleBtn.textContent = "Exporting...";
+  try {
+    const result = await fetchJson(`${apiBase}/ml/export-bundle`, { method: "POST" });
+    showBox(
+      bundleStatusEl,
+      `Bundle ${result.bundle_name} exported to ${result.bundle_dir}. Files: ${result.files.join(", ")}`,
+      "allow"
+    );
+  } catch (error) {
+    showBox(bundleStatusEl, `Bundle export failed: ${error.message}`, "block");
+  } finally {
+    exportBundleBtn.disabled = false;
+    exportBundleBtn.textContent = "Export Bundle";
   }
 });
 

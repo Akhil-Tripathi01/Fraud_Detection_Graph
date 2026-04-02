@@ -23,6 +23,8 @@ This repository now combines:
 - a dataset folder
 - a working web application
 - graph-aware ML training and inference APIs
+- heterogeneous-graph style summaries and export bundles
+- training-history traces for experiment review
 
 ## Repository Layout
 
@@ -101,6 +103,9 @@ Those libraries are part of the roadmap, and the current API shape is designed s
 - Live transaction scoring with `allow`, `review`, and `block`
 - Investigator dashboard with graph visualization
 - Graph ML training, reporting, prediction, simulation, save, load, and compare
+- Training-history tracking across estimator growth steps
+- Heterogeneous graph summaries across accounts, devices, IPs, merchants, and countries
+- Research bundle export with transactions, features, edges, and summaries
 - Research-style notebook browser page
 - `100` generated example cases with backend endpoints and frontend filtering
 - Automated tests for risk engine and ML API flows
@@ -137,9 +142,12 @@ Open:
 - `GET /api/ml/research`
 - `GET /api/ml/results-summary`
 - `GET /api/ml/visual-summary`
+- `GET /api/ml/training-history`
+- `GET /api/ml/hetero-graph-summary`
 - `GET /api/ml/model-catalog`
 - `GET /api/ml/configs`
 - `POST /api/ml/run-config?config_name=<name>`
+- `POST /api/ml/export-bundle`
 - `GET /api/ml/research-landscape`
 - `GET /api/ml/research-sources`
 - `GET /api/ml/status`
@@ -178,4 +186,5 @@ The reference repository is useful as a concept and learning starting point, but
 - deployment-style model lifecycle endpoints
 - experiment catalog and config execution APIs
 - visual-summary exports for charts and reporting
+- heterograph-aware summaries and portable research bundles
 - documented roadmap for heterogeneous, temporal, and robustness-focused GNN work

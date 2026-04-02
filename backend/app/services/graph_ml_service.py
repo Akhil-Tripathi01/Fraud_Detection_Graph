@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import pickle
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -11,6 +12,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, precision_score, recall_score, roc_auc_score
 from sklearn.model_selection import train_test_split
+from sklearn.utils.class_weight import compute_class_weight
 
 
 @dataclass
@@ -24,6 +26,7 @@ class TrainedArtifacts:
     graph_edges: int
     top_features: list[dict]
     confusion_matrix: dict
+    training_history: list[dict]
 
 
 class GraphMLService:
@@ -35,6 +38,8 @@ class GraphMLService:
         self.artifacts: TrainedArtifacts | None = None
         self.model_dir = Path(__file__).resolve().parent.parent / "data" / "models"
         self.model_dir.mkdir(parents=True, exist_ok=True)
+        self.bundle_dir = Path(__file__).resolve().parents[3] / "output" / "bundles"
+        self.bundle_dir.mkdir(parents=True, exist_ok=True)
 
     def generate_transaction_dataset(
         self, n_transactions: int = 3000, n_accounts: int = 500, fraud_rate: float = 0.08, random_seed: int = 42
@@ -233,16 +238,37 @@ class GraphMLService:
         x = self.nodes_df[feature_cols]
         y = self.nodes_df["label"]
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=random_seed, stratify=y)
+        classes = np.array(sorted(y_train.unique()))
+        class_weights = compute_class_weight(class_weight="balanced", classes=classes, y=y_train.to_numpy())
+        class_weight_map = {int(label): float(weight) for label, weight in zip(classes, class_weights, strict=False)}
 
         self.model = RandomForestClassifier(
-            n_estimators=280,
+            n_estimators=40,
             max_depth=10,
             min_samples_leaf=2,
             random_state=random_seed,
-            class_weight="balanced_subsample",
+            class_weight=class_weight_map,
             n_jobs=1,
+            warm_start=True,
         )
-        self.model.fit(x_train, y_train)
+        training_history = []
+        estimator_schedule = [40, 80, 120, 180, 240, 280]
+        for step, n_estimators in enumerate(estimator_schedule, start=1):
+            self.model.set_params(n_estimators=n_estimators)
+            self.model.fit(x_train, y_train)
+            step_pred = self.model.predict(x_test)
+            step_proba = self.model.predict_proba(x_test)[:, 1]
+            training_history.append(
+                {
+                    "step": step,
+                    "n_estimators": n_estimators,
+                    "accuracy": round(float(accuracy_score(y_test, step_pred)), 4),
+                    "precision": round(float(precision_score(y_test, step_pred, zero_division=0)), 4),
+                    "recall": round(float(recall_score(y_test, step_pred, zero_division=0)), 4),
+                    "f1": round(float(f1_score(y_test, step_pred, zero_division=0)), 4),
+                    "roc_auc": round(float(roc_auc_score(y_test, step_proba)), 4),
+                }
+            )
 
         pred = self.model.predict(x_test)
         proba = self.model.predict_proba(x_test)[:, 1]
@@ -273,6 +299,7 @@ class GraphMLService:
             graph_edges=self.graph.number_of_edges(),
             top_features=top_features,
             confusion_matrix=confusion,
+            training_history=training_history,
         )
         return self.artifacts
 
@@ -294,6 +321,7 @@ class GraphMLService:
             "feature_columns": self.artifacts.feature_columns,
             "top_features": self.artifacts.top_features,
             "confusion_matrix": self.artifacts.confusion_matrix,
+            "training_history": self.artifacts.training_history,
         }
 
     def data_profile(self) -> dict:
@@ -422,6 +450,99 @@ class GraphMLService:
                 "fraud_rate": round(float(self.df["label"].mean()), 4),
             },
         }
+
+    def training_history(self) -> dict:
+        self.ensure_trained()
+        assert self.artifacts is not None
+        return {"history": self.artifacts.training_history}
+
+    def heterogeneous_graph_summary(self) -> dict:
+        self.ensure_trained()
+        assert self.df is not None
+        assert self.graph is not None
+
+        account_nodes = pd.unique(self.df[["sender_id", "receiver_id"]].values.ravel())
+        node_type_counts = {
+            "account": int(len(account_nodes)),
+            "device": int(self.df["device_id"].nunique()),
+            "ip": int(self.df["ip_address"].nunique()),
+            "merchant": int(self.df["merchant_id"].nunique()),
+            "country": int(self.df["country"].nunique()),
+        }
+        edge_type_counts = {
+            "transfers_to": int(self.df.groupby(["sender_id", "receiver_id"]).ngroups),
+            "uses_device": int(self.df.groupby(["sender_id", "device_id"]).ngroups),
+            "uses_ip": int(self.df.groupby(["sender_id", "ip_address"]).ngroups),
+            "pays_merchant": int(self.df.groupby(["sender_id", "merchant_id"]).ngroups),
+            "registered_country": int(self.df.groupby(["sender_id", "country"]).ngroups),
+        }
+
+        shared_devices = (
+            self.df.groupby("device_id")
+            .agg(accounts=("sender_id", "nunique"), txns=("txn_id", "count"), fraud_txn=("label", "sum"))
+            .sort_values(["accounts", "fraud_txn", "txns"], ascending=[False, False, False])
+            .head(8)
+            .reset_index()
+            .to_dict(orient="records")
+        )
+        shared_ips = (
+            self.df.groupby("ip_address")
+            .agg(accounts=("sender_id", "nunique"), txns=("txn_id", "count"), fraud_txn=("label", "sum"))
+            .sort_values(["accounts", "fraud_txn", "txns"], ascending=[False, False, False])
+            .head(8)
+            .reset_index()
+            .to_dict(orient="records")
+        )
+
+        return {
+            "title": "Synthetic Heterogeneous Fraud Graph Summary",
+            "node_type_counts": node_type_counts,
+            "edge_type_counts": edge_type_counts,
+            "graph_density_view": {
+                "homogeneous_nodes": int(self.graph.number_of_nodes()),
+                "homogeneous_edges": int(self.graph.number_of_edges()),
+                "avg_out_degree": round(float(np.mean([d for _, d in self.graph.out_degree()])), 4),
+            },
+            "top_shared_devices": shared_devices,
+            "top_shared_ips": shared_ips,
+        }
+
+    def export_bundle(self, bundle_name: str | None = None) -> dict:
+        self.ensure_trained()
+        assert self.df is not None
+        assert self.nodes_df is not None
+        bundle_name = bundle_name or datetime.now(timezone.utc).strftime("bundle_%Y%m%d_%H%M%S")
+        bundle_path = self.bundle_dir / bundle_name
+        bundle_path.mkdir(parents=True, exist_ok=True)
+
+        transactions_path = bundle_path / "transactions.csv"
+        features_path = bundle_path / "account_features.csv"
+        hetero_edges_path = bundle_path / "heterogeneous_edges.csv"
+        summary_path = bundle_path / "bundle_summary.json"
+        history_path = bundle_path / "training_history.json"
+
+        self.df.to_csv(transactions_path, index=False)
+        self.nodes_df.to_csv(features_path, index=False)
+
+        edge_frames = [
+            self.df[["sender_id", "receiver_id"]].drop_duplicates().assign(edge_type="transfers_to"),
+            self.df[["sender_id", "device_id"]].drop_duplicates().rename(columns={"device_id": "receiver_id"}).assign(edge_type="uses_device"),
+            self.df[["sender_id", "ip_address"]].drop_duplicates().rename(columns={"ip_address": "receiver_id"}).assign(edge_type="uses_ip"),
+            self.df[["sender_id", "merchant_id"]].drop_duplicates().rename(columns={"merchant_id": "receiver_id"}).assign(edge_type="pays_merchant"),
+        ]
+        hetero_edges = pd.concat(edge_frames, ignore_index=True)
+        hetero_edges.to_csv(hetero_edges_path, index=False)
+
+        summary = {
+            "metrics": self.metrics(),
+            "heterogeneous_graph_summary": self.heterogeneous_graph_summary(),
+            "research_landscape": self.research_landscape(),
+        }
+        summary_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+        history_path.write_text(json.dumps(self.training_history(), indent=2), encoding="utf-8")
+
+        files = [p.name for p in sorted(bundle_path.iterdir())]
+        return {"bundle_name": bundle_name, "bundle_dir": str(bundle_path), "files": files}
 
     def research_landscape(self) -> dict:
         return {

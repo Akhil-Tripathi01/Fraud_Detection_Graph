@@ -100,6 +100,14 @@
         <h2>Step 2: Graph Construction</h2>
         <p>Graph edges/nodes are created in training pipeline and reflected in report/metrics outputs.</p>
       </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="hetero">Run Cell</button>
+        </div>
+        <pre>GET /api/ml/hetero-graph-summary</pre>
+        <div id="out-hetero" class="out">Not executed.</div>
+      </section>
 
       <section class="cell md">
         <h2>Step 3: Feature Engineering</h2>
@@ -139,6 +147,14 @@
           <input class="in" id="seed" type="number" value="42" min="1" max="99999" />
         </div>
         <div id="out-train" class="out">Not executed.</div>
+      </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="history">Run Cell</button>
+        </div>
+        <pre>GET /api/ml/training-history</pre>
+        <div id="out-history" class="out">Not executed.</div>
       </section>
 
       <section class="cell md">
@@ -243,6 +259,14 @@
         </div>
         <div id="out-compare" class="out">Not executed.</div>
       </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="bundle">Run Cell</button>
+        </div>
+        <pre>POST /api/ml/export-bundle</pre>
+        <div id="out-bundle" class="out">Not executed.</div>
+      </section>
 
       <section class="cell md">
         <h2>Project Summary</h2>
@@ -271,6 +295,7 @@
       async function run(which) {
         try {
           if (which === "profile") show("out-profile", await callApi("/api/ml/data-profile"));
+          if (which === "hetero") show("out-hetero", await callApi("/api/ml/hetero-graph-summary"));
           if (which === "train") show("out-train", await callApi("/api/ml/train", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -281,6 +306,7 @@
               random_seed: Number(document.getElementById("seed").value)
             })
           }));
+          if (which === "history") show("out-history", await callApi("/api/ml/training-history"));
           if (which === "report") show("out-report", await callApi("/api/ml/report"));
           if (which === "predict") show("out-predict", await callApi("/api/ml/predict", {
             method: "POST",
@@ -313,10 +339,13 @@
             const cand = encodeURIComponent(document.getElementById("candidateTag").value);
             show("out-compare", await callApi(`/api/ml/compare?base_tag=${base}&candidate_tag=${cand}`));
           }
+          if (which === "bundle") show("out-bundle", await callApi("/api/ml/export-bundle", { method: "POST" }));
         } catch (e) {
           const map = {
             profile: "out-profile",
+            hetero: "out-hetero",
             train: "out-train",
+            history: "out-history",
             report: "out-report",
             predict: "out-predict",
             simulate: "out-simulate",
@@ -327,7 +356,8 @@
             load: "out-report",
             models: "out-report",
             manifest: "out-manifest",
-            compare: "out-compare"
+            compare: "out-compare",
+            bundle: "out-bundle"
           };
           show(map[which], `Error: ${e.message}`);
         }
@@ -341,7 +371,7 @@
       document.getElementById("loadBtn").addEventListener("click", () => run("load"));
       document.getElementById("modelsBtn").addEventListener("click", () => run("models"));
       document.getElementById("runAllBtn").addEventListener("click", async () => {
-        for (const step of ["profile", "train", "report", "predict", "simulate", "research", "results", "save", "models", "manifest"]) {
+        for (const step of ["profile", "hetero", "train", "history", "report", "predict", "simulate", "research", "results", "bundle", "save", "models", "manifest"]) {
           // keep sequential order like notebook execution
           await run(step);
         }

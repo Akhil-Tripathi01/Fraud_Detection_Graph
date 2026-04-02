@@ -17,6 +17,7 @@ def test_ml_api_train_report_predict():
     assert "trained_at" in train_data
     assert "top_features" in train_data and len(train_data["top_features"]) > 0
     assert "confusion_matrix" in train_data
+    assert "training_history" in train_data and len(train_data["training_history"]) > 0
 
     report_resp = client.get("/api/ml/report")
     assert report_resp.status_code == 200
@@ -48,6 +49,17 @@ def test_ml_api_train_report_predict():
     visual = visual_resp.json()
     assert len(visual["metric_series"]) > 0
     assert len(visual["risk_distribution"]) == 3
+
+    history_resp = client.get("/api/ml/training-history")
+    assert history_resp.status_code == 200
+    history = history_resp.json()
+    assert len(history["history"]) > 0
+
+    hetero_resp = client.get("/api/ml/hetero-graph-summary")
+    assert hetero_resp.status_code == 200
+    hetero = hetero_resp.json()
+    assert "node_type_counts" in hetero
+    assert "edge_type_counts" in hetero
 
     catalog_resp = client.get("/api/ml/model-catalog")
     assert catalog_resp.status_code == 200
@@ -85,6 +97,12 @@ def test_ml_api_train_report_predict():
     sources = source_resp.json()
     assert len(sources["sources"]) > 0
     assert any(item["category"] == "official_docs" for item in sources["sources"])
+
+    bundle_resp = client.post("/api/ml/export-bundle?bundle_name=test_bundle_api")
+    assert bundle_resp.status_code == 200
+    bundle = bundle_resp.json()
+    assert bundle["bundle_name"] == "test_bundle_api"
+    assert len(bundle["files"]) >= 4
 
     predict_resp = client.post("/api/ml/predict", json={"account_id": "ACC_UNKNOWN_001"})
     assert predict_resp.status_code == 200

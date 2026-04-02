@@ -87,6 +87,7 @@ class MLTrainResponse(BaseModel):
     feature_columns: list[str]
     top_features: list[dict]
     confusion_matrix: dict
+    training_history: list[dict] = []
 
 
 class MLPredictRequest(BaseModel):
@@ -179,6 +180,25 @@ class MLResearchLandscapeResponse(BaseModel):
 class MLResearchSourceResponse(BaseModel):
     title: str
     sources: list[dict]
+
+
+class MLTrainingHistoryResponse(BaseModel):
+    history: list[dict]
+
+
+class MLHeteroGraphSummaryResponse(BaseModel):
+    title: str
+    node_type_counts: dict
+    edge_type_counts: dict
+    graph_density_view: dict
+    top_shared_devices: list[dict]
+    top_shared_ips: list[dict]
+
+
+class MLBundleExportResponse(BaseModel):
+    bundle_name: str
+    bundle_dir: str
+    files: list[str]
 
 
 class MLStatusResponse(BaseModel):

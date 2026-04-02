@@ -9,8 +9,10 @@ from backend.app.models.schemas import (
     GraphSummary,
     MLConfigEntry,
     MLConfigRunResponse,
+    MLBundleExportResponse,
     MLDataProfileResponse,
     MLEvaluationMetrics,
+    MLHeteroGraphSummaryResponse,
     MLModelActionResponse,
     MLModelCatalogEntry,
     MLModelCompareResponse,
@@ -22,6 +24,7 @@ from backend.app.models.schemas import (
     MLResearchSourceResponse,
     MLResultsSummaryResponse,
     MLStatusResponse,
+    MLTrainingHistoryResponse,
     MLTrainRequest,
     MLTrainResponse,
     MLVisualSummaryResponse,
@@ -98,6 +101,7 @@ def train_graph_ml(payload: MLTrainRequest) -> MLTrainResponse:
         feature_columns=data["feature_columns"],
         top_features=data["top_features"],
         confusion_matrix=data["confusion_matrix"],
+        training_history=data["training_history"],
     )
 
 
@@ -115,6 +119,7 @@ def get_graph_ml_metrics() -> MLTrainResponse:
         feature_columns=data["feature_columns"],
         top_features=data["top_features"],
         confusion_matrix=data["confusion_matrix"],
+        training_history=data["training_history"],
     )
 
 
@@ -164,6 +169,16 @@ def get_ml_visual_summary() -> MLVisualSummaryResponse:
     return MLVisualSummaryResponse(**graph_ml_service.visual_summary())
 
 
+@router.get("/ml/training-history", response_model=MLTrainingHistoryResponse)
+def get_ml_training_history() -> MLTrainingHistoryResponse:
+    return MLTrainingHistoryResponse(**graph_ml_service.training_history())
+
+
+@router.get("/ml/hetero-graph-summary", response_model=MLHeteroGraphSummaryResponse)
+def get_ml_hetero_graph_summary() -> MLHeteroGraphSummaryResponse:
+    return MLHeteroGraphSummaryResponse(**graph_ml_service.heterogeneous_graph_summary())
+
+
 @router.get("/ml/model-catalog", response_model=list[MLModelCatalogEntry])
 def get_ml_model_catalog() -> list[MLModelCatalogEntry]:
     return [MLModelCatalogEntry(model_name=name, **info) for name, info in sorted(SUPPORTED_MODELS.items())]
@@ -190,6 +205,11 @@ def run_ml_config(config_name: str = Query(..., min_length=1)) -> MLConfigRunRes
     path = config_dir / f"{config_name}.json"
     result = run_training(load_config(path))
     return MLConfigRunResponse(**result)
+
+
+@router.post("/ml/export-bundle", response_model=MLBundleExportResponse)
+def export_ml_bundle(bundle_name: str | None = Query(default=None)) -> MLBundleExportResponse:
+    return MLBundleExportResponse(**graph_ml_service.export_bundle(bundle_name=bundle_name))
 
 
 @router.get("/ml/status", response_model=MLStatusResponse)
