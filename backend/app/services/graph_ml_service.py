@@ -387,6 +387,42 @@ class GraphMLService:
             ],
         }
 
+    def visual_summary(self) -> dict:
+        self.ensure_trained()
+        assert self.artifacts is not None
+        assert self.nodes_df is not None
+        assert self.df is not None
+
+        metric_series = [
+            {"label": key.upper(), "value": value}
+            for key, value in self.artifacts.metrics.items()
+            if key in {"accuracy", "precision", "recall", "f1", "roc_auc"}
+        ]
+
+        risk_bins = [
+            ("Low", 0.0, 0.4),
+            ("Medium", 0.4, 0.75),
+            ("High", 0.75, 1.01),
+        ]
+        probabilities = self.model.predict_proba(self.nodes_df[self.artifacts.feature_columns])[:, 1]
+        risk_distribution = []
+        for label, lower, upper in risk_bins:
+            count = int(((probabilities >= lower) & (probabilities < upper)).sum())
+            risk_distribution.append({"label": label, "count": count})
+
+        return {
+            "metric_series": metric_series,
+            "feature_importance_series": self.artifacts.top_features,
+            "risk_distribution": risk_distribution,
+            "graph_snapshot": {
+                "transactions": int(len(self.df)),
+                "accounts": int(len(self.nodes_df)),
+                "graph_nodes": self.artifacts.graph_nodes,
+                "graph_edges": self.artifacts.graph_edges,
+                "fraud_rate": round(float(self.df["label"].mean()), 4),
+            },
+        }
+
     def predict_account(self, account_id: str, threshold: float = 0.5) -> dict:
         self.ensure_trained()
         assert self.model is not None

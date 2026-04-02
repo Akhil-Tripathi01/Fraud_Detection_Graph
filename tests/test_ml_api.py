@@ -43,6 +43,28 @@ def test_ml_api_train_report_predict():
     assert "performance" in results
     assert "priority_note" in results
 
+    visual_resp = client.get("/api/ml/visual-summary")
+    assert visual_resp.status_code == 200
+    visual = visual_resp.json()
+    assert len(visual["metric_series"]) > 0
+    assert len(visual["risk_distribution"]) == 3
+
+    catalog_resp = client.get("/api/ml/model-catalog")
+    assert catalog_resp.status_code == 200
+    catalog = catalog_resp.json()
+    assert any(entry["model_name"] == "random_forest" for entry in catalog)
+
+    configs_resp = client.get("/api/ml/configs")
+    assert configs_resp.status_code == 200
+    configs = configs_resp.json()
+    assert any(entry["name"] == "default_training" for entry in configs)
+
+    run_config_resp = client.post("/api/ml/run-config?config_name=default_training")
+    assert run_config_resp.status_code == 200
+    run_config = run_config_resp.json()
+    assert run_config["model_name"] == "random_forest"
+    assert run_config["model_info"]["status"] == "implemented"
+
     predict_resp = client.post("/api/ml/predict", json={"account_id": "ACC_UNKNOWN_001"})
     assert predict_resp.status_code == 200
     pred = predict_resp.json()

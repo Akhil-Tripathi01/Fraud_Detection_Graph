@@ -89,6 +89,33 @@
           <div id="overviewCards" class="overview-grid"></div>
         </section>
 
+        <section class="panel panel-span-12">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Experiment Lab</p>
+              <h2>Model Catalog, Configs, and Visual Summary</h2>
+            </div>
+          </div>
+          <div class="architecture-grid">
+            <article class="stack-card">
+              <h3>Model Catalog</h3>
+              <div id="modelCatalog" class="diag"></div>
+            </article>
+            <article class="stack-card">
+              <h3>Training Configs</h3>
+              <div class="toolbar">
+                <select id="configPicker"></select>
+                <button id="runConfigBtn" type="button">Run Config</button>
+              </div>
+              <div id="configStatus" class="result hidden"></div>
+            </article>
+            <article class="stack-card">
+              <h3>Visual Summary</h3>
+              <div id="visualSummary" class="chart-grid"></div>
+            </article>
+          </div>
+        </section>
+
         <section class="panel panel-span-5">
           <div class="section-head">
             <div>

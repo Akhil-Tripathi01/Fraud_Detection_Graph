@@ -89,7 +89,8 @@ body {
 .hero-panel,
 .diag,
 .alert-list,
-.mini-stats {
+.mini-stats,
+.chart-grid {
   display: grid;
   gap: 12px;
 }
@@ -271,6 +272,45 @@ button.secondary {
 
 .diag-card h3,
 .diag-card h4 { margin: 0 0 10px; }
+
+.chart-card {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface-strong);
+}
+
+.chart-card h4 {
+  margin: 0 0 12px;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.bar-list {
+  display: grid;
+  gap: 10px;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 92px 1fr 56px;
+  gap: 10px;
+  align-items: center;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 13px;
+}
+
+.bar-track {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #ebe4d4;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), #5ea39f);
+}
 
 .diag-table,
 .case-table {

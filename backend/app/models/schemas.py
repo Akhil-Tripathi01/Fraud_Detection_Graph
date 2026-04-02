@@ -132,6 +132,40 @@ class MLResultsSummaryResponse(BaseModel):
     recommendations: list[str]
 
 
+class MLModelCatalogEntry(BaseModel):
+    model_name: str
+    family: str
+    description: str
+    status: str
+
+
+class MLConfigEntry(BaseModel):
+    name: str
+    path: str
+    model_name: str
+    exists: bool
+
+
+class MLVisualSummaryResponse(BaseModel):
+    metric_series: list[dict]
+    feature_importance_series: list[dict]
+    risk_distribution: list[dict]
+    graph_snapshot: dict
+
+
+class MLConfigRunResponse(BaseModel):
+    model_name: str
+    model_info: dict
+    model_tag: str
+    trained_at: datetime
+    metrics: dict
+    graph_nodes: int
+    graph_edges: int
+    transactions: int
+    accounts: int
+    top_features: list[dict]
+
+
 class MLStatusResponse(BaseModel):
     trained: bool
     trained_at: datetime | None

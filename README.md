@@ -6,6 +6,13 @@ It also now borrows a second useful pattern from `waittim/graph-fraud-detection`
 
 A third reference, `arxyzan/fraud-detection-gnn`, pushed this repository toward a cleaner package-oriented structure with config-driven training and a multi-model roadmap.
 
+After reviewing all the reference links together, this project now aims to combine their best ideas in one place:
+- notebook-first research storytelling
+- staged workflow organization
+- config-driven experimentation
+- multi-model GNN roadmap
+- a working full-stack product instead of notebook-only exploration
+
 ## Introduction
 
 Fraud detection benefits from graph-based learning because suspicious behavior is often relational rather than isolated. Shared devices, shared IPs, burst timing, repeated merchant patterns, and account-to-account connectivity can expose fraud rings that row-wise models miss.
@@ -76,6 +83,7 @@ Main tools:
 - `HTML`, `CSS`, and `JavaScript` for the connected web interface
 - staged notebooks for data, modeling, and visual interpretation
 - config-driven experiment runs inspired by multi-model GNN repositories
+- model catalog and config-runner APIs for experiment management
 
 Future-ready path:
 - `PyTorch Geometric`
@@ -123,6 +131,10 @@ Open:
 - `GET /api/ml/data-profile`
 - `GET /api/ml/research`
 - `GET /api/ml/results-summary`
+- `GET /api/ml/visual-summary`
+- `GET /api/ml/model-catalog`
+- `GET /api/ml/configs`
+- `POST /api/ml/run-config?config_name=<name>`
 - `GET /api/ml/status`
 - `POST /api/ml/save`
 - `POST /api/ml/load`
@@ -157,3 +169,5 @@ The reference repository is useful as a concept and learning starting point, but
 - test coverage
 - repeatable example data
 - deployment-style model lifecycle endpoints
+- experiment catalog and config execution APIs
+- visual-summary exports for charts and reporting

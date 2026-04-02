@@ -14,6 +14,11 @@ const researchBriefEl = document.getElementById("researchBrief");
 const alertsEl = document.getElementById("alerts");
 const graphEl = document.getElementById("graph");
 const overviewCardsEl = document.getElementById("overviewCards");
+const modelCatalogEl = document.getElementById("modelCatalog");
+const configPickerEl = document.getElementById("configPicker");
+const runConfigBtn = document.getElementById("runConfigBtn");
+const configStatusEl = document.getElementById("configStatus");
+const visualSummaryEl = document.getElementById("visualSummary");
 const caseSummaryEl = document.getElementById("caseSummary");
 const caseTableBodyEl = document.getElementById("caseTableBody");
 const caseSearchEl = document.getElementById("caseSearch");
@@ -26,6 +31,7 @@ const mlStatusHeroEl = document.getElementById("mlStatusHero");
 const caseCountHeroEl = document.getElementById("caseCountHero");
 
 let allCases = [];
+let availableConfigs = [];
 
 async function fetchJson(url, options = {}) {
   const response = await fetch(url, options);
@@ -226,6 +232,66 @@ function renderResearchBrief(report) {
   `;
 }
 
+function renderModelCatalog(catalog) {
+  modelCatalogEl.innerHTML = catalog
+    .map(
+      (entry) => `
+        <div class="diag-card">
+          <h3>${entry.model_name}</h3>
+          <div class="diag-row">Family: ${entry.family}</div>
+          <div class="diag-row">Status: ${entry.status}</div>
+          <div class="diag-row">${entry.description}</div>
+        </div>
+      `
+    )
+    .join("");
+}
+
+function renderConfigPicker(configs) {
+  availableConfigs = configs;
+  configPickerEl.innerHTML = configs
+    .map((entry) => `<option value="${entry.name}">${entry.name} (${entry.model_name})</option>`)
+    .join("");
+}
+
+function renderBarRows(rows, valueKey, maxValue) {
+  return rows
+    .map((row) => {
+      const label = row.label || row.feature;
+      const value = Number(row[valueKey]);
+      const width = maxValue > 0 ? Math.max(8, (value / maxValue) * 100) : 0;
+      return `
+        <div class="bar-row">
+          <span>${label}</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${width}%"></div></div>
+          <strong>${value}</strong>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function renderVisualSummary(summary) {
+  const metricsMax = Math.max(...summary.metric_series.map((item) => Number(item.value)), 1);
+  const featureMax = Math.max(...summary.feature_importance_series.map((item) => Number(item.importance)), 1);
+  const riskMax = Math.max(...summary.risk_distribution.map((item) => Number(item.count)), 1);
+
+  visualSummaryEl.innerHTML = `
+    <div class="chart-card">
+      <h4>Metrics</h4>
+      <div class="bar-list">${renderBarRows(summary.metric_series, "value", metricsMax)}</div>
+    </div>
+    <div class="chart-card">
+      <h4>Top Features</h4>
+      <div class="bar-list">${renderBarRows(summary.feature_importance_series, "importance", featureMax)}</div>
+    </div>
+    <div class="chart-card">
+      <h4>Risk Distribution</h4>
+      <div class="bar-list">${renderBarRows(summary.risk_distribution, "count", riskMax)}</div>
+    </div>
+  `;
+}
+
 function renderCaseSummary(summary) {
   caseCountHeroEl.textContent = `${summary.total_cases} seeded scenarios`;
   caseSummaryEl.innerHTML = [
@@ -284,7 +350,7 @@ function renderCaseTable() {
 }
 
 async function refreshPlatform() {
-  const [health, metrics, alerts, graph, mlStatus, caseSummary, profile, research] = await Promise.all([
+  const [health, metrics, alerts, graph, mlStatus, caseSummary, profile, research, visual, catalog, configs] = await Promise.all([
     fetchJson(`${apiBase}/health`),
     fetchJson(`${apiBase}/dashboard/metrics`),
     fetchJson(`${apiBase}/alerts?min_score=70`),
@@ -292,7 +358,10 @@ async function refreshPlatform() {
     fetchJson(`${apiBase}/ml/status`),
     fetchJson(`${apiBase}/example-cases/summary`),
     fetchJson(`${apiBase}/ml/data-profile`),
-    fetchJson(`${apiBase}/ml/research`)
+    fetchJson(`${apiBase}/ml/research`),
+    fetchJson(`${apiBase}/ml/visual-summary`),
+    fetchJson(`${apiBase}/ml/model-catalog`),
+    fetchJson(`${apiBase}/ml/configs`)
   ]);
 
   healthStatusEl.textContent = health.status === "ok" ? "Healthy" : "Check service";
@@ -303,6 +372,9 @@ async function refreshPlatform() {
   renderCaseSummary(caseSummary);
   renderDataProfile(profile);
   renderResearchBrief(research);
+  renderVisualSummary(visual);
+  renderModelCatalog(catalog);
+  renderConfigPicker(configs);
 }
 
 async function loadExampleCases() {
@@ -408,6 +480,33 @@ simulateMlBtn.addEventListener("click", async () => {
       .join("");
   } catch (error) {
     mlSimulationEl.innerHTML = `<div class="alert">Simulation failed: ${error.message}</div>`;
+  }
+});
+
+runConfigBtn.addEventListener("click", async () => {
+  const selected = configPickerEl.value;
+  if (!selected) {
+    showBox(configStatusEl, "No config available to run.", "review");
+    return;
+  }
+
+  runConfigBtn.disabled = true;
+  runConfigBtn.textContent = "Running...";
+  try {
+    const result = await fetchJson(`${apiBase}/ml/run-config?config_name=${encodeURIComponent(selected)}`, {
+      method: "POST"
+    });
+    showBox(
+      configStatusEl,
+      `Config ${selected} ran with ${result.model_name}. Accuracy ${result.metrics.accuracy}, ROC-AUC ${result.metrics.roc_auc}, saved tag ${result.model_tag}.`,
+      "allow"
+    );
+    await Promise.all([refreshPlatform(), refreshMlOverview()]);
+  } catch (error) {
+    showBox(configStatusEl, `Config run failed: ${error.message}`, "block");
+  } finally {
+    runConfigBtn.disabled = false;
+    runConfigBtn.textContent = "Run Config";
   }
 });
 

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from fastapi import APIRouter, Query
 
 from backend.app.models.schemas import (
@@ -5,9 +7,12 @@ from backend.app.models.schemas import (
     ExampleCase,
     ExampleCaseSummary,
     GraphSummary,
+    MLConfigEntry,
+    MLConfigRunResponse,
     MLDataProfileResponse,
     MLEvaluationMetrics,
     MLModelActionResponse,
+    MLModelCatalogEntry,
     MLModelCompareResponse,
     MLModelManifestResponse,
     MLPredictRequest,
@@ -17,13 +22,18 @@ from backend.app.models.schemas import (
     MLStatusResponse,
     MLTrainRequest,
     MLTrainResponse,
+    MLVisualSummaryResponse,
     ScoringResult,
     TransactionIn,
 )
 from backend.app.services.fraud_service import fraud_service
 from backend.app.services.graph_ml_service import graph_ml_service
+from fraud_detection.config import load_config
+from fraud_detection.model_registry import SUPPORTED_MODELS
+from fraud_detection.pipeline import run_training
 
 router = APIRouter(prefix="/api", tags=["fraud"])
+config_dir = Path(__file__).resolve().parents[3] / "configs"
 
 
 @router.get("/health")
@@ -135,6 +145,39 @@ def get_ml_research() -> MLResearchResponse:
 @router.get("/ml/results-summary", response_model=MLResultsSummaryResponse)
 def get_ml_results_summary() -> MLResultsSummaryResponse:
     return MLResultsSummaryResponse(**graph_ml_service.results_summary())
+
+
+@router.get("/ml/visual-summary", response_model=MLVisualSummaryResponse)
+def get_ml_visual_summary() -> MLVisualSummaryResponse:
+    return MLVisualSummaryResponse(**graph_ml_service.visual_summary())
+
+
+@router.get("/ml/model-catalog", response_model=list[MLModelCatalogEntry])
+def get_ml_model_catalog() -> list[MLModelCatalogEntry]:
+    return [MLModelCatalogEntry(model_name=name, **info) for name, info in sorted(SUPPORTED_MODELS.items())]
+
+
+@router.get("/ml/configs", response_model=list[MLConfigEntry])
+def get_ml_configs() -> list[MLConfigEntry]:
+    entries = []
+    for path in sorted(config_dir.glob("*.json")):
+        config = load_config(path)
+        entries.append(
+            MLConfigEntry(
+                name=path.stem,
+                path=str(path.relative_to(config_dir.parent)),
+                model_name=config.get("model_name", "random_forest"),
+                exists=path.exists(),
+            )
+        )
+    return entries
+
+
+@router.post("/ml/run-config", response_model=MLConfigRunResponse)
+def run_ml_config(config_name: str = Query(..., min_length=1)) -> MLConfigRunResponse:
+    path = config_dir / f"{config_name}.json"
+    result = run_training(load_config(path))
+    return MLConfigRunResponse(**result)
 
 
 @router.get("/ml/status", response_model=MLStatusResponse)
