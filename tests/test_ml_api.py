@@ -58,12 +58,27 @@ def test_ml_api_train_report_predict():
     assert configs_resp.status_code == 200
     configs = configs_resp.json()
     assert any(entry["name"] == "default_training" for entry in configs)
+    assert any(entry["name"] == "hetero_temporal_experiment" for entry in configs)
 
     run_config_resp = client.post("/api/ml/run-config?config_name=default_training")
     assert run_config_resp.status_code == 200
     run_config = run_config_resp.json()
     assert run_config["model_name"] == "random_forest"
     assert run_config["model_info"]["status"] == "implemented"
+    assert run_config["execution_mode"] == "native"
+
+    planned_run_resp = client.post("/api/ml/run-config?config_name=graphsage_experiment")
+    assert planned_run_resp.status_code == 200
+    planned_run = planned_run_resp.json()
+    assert planned_run["model_name"] == "graphsage"
+    assert planned_run["effective_model_name"] == "random_forest"
+    assert planned_run["execution_mode"] == "fallback_baseline"
+
+    landscape_resp = client.get("/api/ml/research-landscape")
+    assert landscape_resp.status_code == 200
+    landscape = landscape_resp.json()
+    assert len(landscape["research_trends"]) > 0
+    assert len(landscape["next_steps"]) > 0
 
     predict_resp = client.post("/api/ml/predict", json={"account_id": "ACC_UNKNOWN_001"})
     assert predict_resp.status_code == 200

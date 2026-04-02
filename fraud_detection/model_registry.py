@@ -27,6 +27,21 @@ SUPPORTED_MODELS = {
         "description": "GraphSAGE placeholder for future implementation.",
         "status": "planned",
     },
+    "hetero_gnn": {
+        "family": "gnn",
+        "description": "Heterogeneous graph fraud model placeholder for multi-entity transaction networks.",
+        "status": "planned",
+    },
+    "temporal_gnn": {
+        "family": "gnn",
+        "description": "Temporal fraud model placeholder for time-aware graph sequences and bursts.",
+        "status": "planned",
+    },
+    "fraudgt": {
+        "family": "graph_transformer",
+        "description": "Graph transformer placeholder inspired by newer fraud-specific transformer research.",
+        "status": "planned",
+    },
     "mpnn": {
         "family": "gnn",
         "description": "Message Passing Neural Network placeholder for future implementation.",

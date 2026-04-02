@@ -1,0 +1,10 @@
+{
+  "model_name": "fraudgt",
+  "model_tag": "fraudgt_planned_interface",
+  "training": {
+    "n_transactions": 3400,
+    "n_accounts": 540,
+    "fraud_rate": 0.1,
+    "random_seed": 91
+  }
+}

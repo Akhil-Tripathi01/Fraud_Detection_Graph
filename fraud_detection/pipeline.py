@@ -8,6 +8,8 @@ def run_training(config: dict) -> dict:
     model_name = config.get("model_name", "random_forest")
     model_info = get_model_info(model_name)
     training = config.get("training", {})
+    effective_model_name = model_name if model_info["status"] == "implemented" else "random_forest"
+    execution_mode = "native" if effective_model_name == model_name else "fallback_baseline"
 
     artifacts = graph_ml_service.train_pipeline(
         n_transactions=int(training.get("n_transactions", 3000)),
@@ -19,6 +21,8 @@ def run_training(config: dict) -> dict:
 
     return {
       "model_name": model_name,
+      "effective_model_name": effective_model_name,
+      "execution_mode": execution_mode,
       "model_info": model_info,
       "model_tag": model_tag,
       "trained_at": artifacts.trained_at,

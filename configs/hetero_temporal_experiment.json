@@ -1,0 +1,10 @@
+{
+  "model_name": "hetero_gnn",
+  "model_tag": "hetero_temporal_planned_interface",
+  "training": {
+    "n_transactions": 3600,
+    "n_accounts": 600,
+    "fraud_rate": 0.09,
+    "random_seed": 77
+  }
+}

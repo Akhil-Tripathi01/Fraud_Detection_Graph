@@ -34,6 +34,8 @@ This repository now combines:
 - [Dataset/example_cases_100.json](Dataset/example_cases_100.json): `100` generated example cases
 - [configs/default_training.json](configs/default_training.json): default config-driven training setup
 - [configs/graphsage_experiment.json](configs/graphsage_experiment.json): future-facing GraphSAGE experiment config
+- [configs/hetero_temporal_experiment.json](configs/hetero_temporal_experiment.json): heterogeneous and temporal roadmap config
+- [configs/robust_fraudgt_experiment.json](configs/robust_fraudgt_experiment.json): robustness and graph-transformer roadmap config
 - [data/README.md](data/README.md): prepared-data folder
 - [model/README.md](model/README.md): model artifact folder
 - [output/README.md](output/README.md): output artifact folder
@@ -42,6 +44,7 @@ This repository now combines:
 - [fraud_detection/](fraud_detection): config-driven experiment package
 - [train.py](train.py): standalone training script
 - [visualize.py](visualize.py): result-summary export script
+- [docs/REFERENCE_LEARNINGS.md](docs/REFERENCE_LEARNINGS.md): combined learnings from reference repositories and research themes
 - [frontend/index.html](frontend/index.html): full web frontend
 - [frontend/notebook.html](frontend/notebook.html): notebook-like browser view
 - [backend/app/main.py](backend/app/main.py): FastAPI entrypoint
@@ -135,6 +138,7 @@ Open:
 - `GET /api/ml/model-catalog`
 - `GET /api/ml/configs`
 - `POST /api/ml/run-config?config_name=<name>`
+- `GET /api/ml/research-landscape`
 - `GET /api/ml/status`
 - `POST /api/ml/save`
 - `POST /api/ml/load`
@@ -171,3 +175,4 @@ The reference repository is useful as a concept and learning starting point, but
 - deployment-style model lifecycle endpoints
 - experiment catalog and config execution APIs
 - visual-summary exports for charts and reporting
+- documented roadmap for heterogeneous, temporal, and robustness-focused GNN work

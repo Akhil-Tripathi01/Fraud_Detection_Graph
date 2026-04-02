@@ -155,6 +155,8 @@ class MLVisualSummaryResponse(BaseModel):
 
 class MLConfigRunResponse(BaseModel):
     model_name: str
+    effective_model_name: str
+    execution_mode: str
     model_info: dict
     model_tag: str
     trained_at: datetime
@@ -164,6 +166,14 @@ class MLConfigRunResponse(BaseModel):
     transactions: int
     accounts: int
     top_features: list[dict]
+
+
+class MLResearchLandscapeResponse(BaseModel):
+    title: str
+    repo_learnings: list[str]
+    research_trends: list[str]
+    project_upgrades: list[str]
+    next_steps: list[str]
 
 
 class MLStatusResponse(BaseModel):

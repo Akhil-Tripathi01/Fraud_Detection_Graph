@@ -423,6 +423,33 @@ class GraphMLService:
             },
         }
 
+    def research_landscape(self) -> dict:
+        return {
+            "title": "Graph Fraud Detection Research Landscape",
+            "repo_learnings": [
+                "Notebook-first repos are effective for explaining graph fraud ideas to reviewers and recruiters.",
+                "Staged data, modeling, and visual workflows make experiments easier to follow and reproduce.",
+                "Config-driven training and model registries make a project feel like an extensible platform instead of a single demo.",
+            ],
+            "research_trends": [
+                "Recent work keeps emphasizing heterophily, where fraudulent neighbors may not resemble one another directly.",
+                "Heterogeneous and temporal transaction graphs are increasingly common because fraud signals span users, devices, IPs, merchants, and time windows.",
+                "Robustness and adversarial resilience are becoming more important as fraud rings adapt to graph-based detectors.",
+                "Graph transformers and relation-aware message passing are emerging as next-step architectures beyond baseline GNNs.",
+            ],
+            "project_upgrades": [
+                "This repo now includes experiment configs, staged notebooks, a model catalog, config-runner APIs, and visual summaries.",
+                "The current baseline remains production-friendly while the public interface leaves room for a future GNN backend.",
+                "Synthetic graph generation already includes shared infrastructure, burst timing, merchant behavior, and cross-border traits.",
+            ],
+            "next_steps": [
+                "Implement a true heterogeneous graph schema with user, device, IP, merchant, and transaction node types.",
+                "Add temporal edge features and sliding-window evaluation to better capture bursts and evolving fraud rings.",
+                "Introduce a PyTorch Geometric training path for GraphSAGE or relation-aware heterogeneous models.",
+                "Add robustness checks for noisy labels, graph injection patterns, and threshold drift across channels.",
+            ],
+        }
+
     def predict_account(self, account_id: str, threshold: float = 0.5) -> dict:
         self.ensure_trained()
         assert self.model is not None
