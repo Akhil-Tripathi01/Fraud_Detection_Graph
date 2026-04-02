@@ -450,6 +450,43 @@ class GraphMLService:
             ],
         }
 
+    def research_sources(self) -> dict:
+        return {
+            "title": "Curated Research and Tooling Sources",
+            "sources": [
+                {
+                    "category": "official_docs",
+                    "label": "PyTorch Geometric Heterogeneous Graph Learning",
+                    "url": "https://pytorch-geometric.readthedocs.io/en/stable/notes/heterogeneous.html",
+                    "why_it_matters": "Useful reference for modeling users, devices, merchants, IPs, and transactions as typed nodes and edges.",
+                },
+                {
+                    "category": "official_docs",
+                    "label": "PyTorch Geometric Temporal Introduction",
+                    "url": "https://pytorch-geometric-temporal.readthedocs.io/en/stable/notes/introduction.html",
+                    "why_it_matters": "Relevant for time-aware fraud bursts and event-sequence graph modeling.",
+                },
+                {
+                    "category": "official_docs",
+                    "label": "PyG TemporalData API",
+                    "url": "https://pytorch-geometric.readthedocs.io/en/latest/_modules/torch_geometric/data/temporal.html",
+                    "why_it_matters": "Helpful if the repo grows from static account graphs into event-stream graph data.",
+                },
+                {
+                    "category": "paper",
+                    "label": "Graph neural network for fraud detection via context encoding and adaptive aggregation",
+                    "url": "https://www.sciencedirect.com/science/article/pii/S0957417424023406",
+                    "why_it_matters": "Highlights context-related and camouflage-related fraud behavior as important design targets.",
+                },
+                {
+                    "category": "paper",
+                    "label": "Graph Neural Networks for Financial Fraud Detection: A Review",
+                    "url": "https://www.researchgate.net/publication/385722007_Graph_Neural_Networks_for_Financial_Fraud_Detection_A_Review",
+                    "why_it_matters": "Summarizes the broader GNN fraud-detection landscape and common open challenges.",
+                },
+            ],
+        }
+
     def predict_account(self, account_id: str, threshold: float = 0.5) -> dict:
         self.ensure_trained()
         assert self.model is not None

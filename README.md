@@ -36,6 +36,7 @@ This repository now combines:
 - [configs/graphsage_experiment.json](configs/graphsage_experiment.json): future-facing GraphSAGE experiment config
 - [configs/hetero_temporal_experiment.json](configs/hetero_temporal_experiment.json): heterogeneous and temporal roadmap config
 - [configs/robust_fraudgt_experiment.json](configs/robust_fraudgt_experiment.json): robustness and graph-transformer roadmap config
+- [configs/temporal_signal_experiment.json](configs/temporal_signal_experiment.json): time-aware graph roadmap config
 - [data/README.md](data/README.md): prepared-data folder
 - [model/README.md](model/README.md): model artifact folder
 - [output/README.md](output/README.md): output artifact folder
@@ -45,6 +46,7 @@ This repository now combines:
 - [train.py](train.py): standalone training script
 - [visualize.py](visualize.py): result-summary export script
 - [docs/REFERENCE_LEARNINGS.md](docs/REFERENCE_LEARNINGS.md): combined learnings from reference repositories and research themes
+- [docs/INTERNET_RESEARCH_ROADMAP.md](docs/INTERNET_RESEARCH_ROADMAP.md): ongoing internet research mapped to project upgrades
 - [frontend/index.html](frontend/index.html): full web frontend
 - [frontend/notebook.html](frontend/notebook.html): notebook-like browser view
 - [backend/app/main.py](backend/app/main.py): FastAPI entrypoint
@@ -139,6 +141,7 @@ Open:
 - `GET /api/ml/configs`
 - `POST /api/ml/run-config?config_name=<name>`
 - `GET /api/ml/research-landscape`
+- `GET /api/ml/research-sources`
 - `GET /api/ml/status`
 - `POST /api/ml/save`
 - `POST /api/ml/load`

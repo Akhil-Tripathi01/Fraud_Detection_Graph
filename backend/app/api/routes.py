@@ -19,6 +19,7 @@ from backend.app.models.schemas import (
     MLPredictResponse,
     MLResearchResponse,
     MLResearchLandscapeResponse,
+    MLResearchSourceResponse,
     MLResultsSummaryResponse,
     MLStatusResponse,
     MLTrainRequest,
@@ -146,6 +147,11 @@ def get_ml_research() -> MLResearchResponse:
 @router.get("/ml/research-landscape", response_model=MLResearchLandscapeResponse)
 def get_ml_research_landscape() -> MLResearchLandscapeResponse:
     return MLResearchLandscapeResponse(**graph_ml_service.research_landscape())
+
+
+@router.get("/ml/research-sources", response_model=MLResearchSourceResponse)
+def get_ml_research_sources() -> MLResearchSourceResponse:
+    return MLResearchSourceResponse(**graph_ml_service.research_sources())
 
 
 @router.get("/ml/results-summary", response_model=MLResultsSummaryResponse)

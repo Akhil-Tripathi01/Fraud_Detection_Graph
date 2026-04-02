@@ -176,6 +176,11 @@ class MLResearchLandscapeResponse(BaseModel):
     next_steps: list[str]
 
 
+class MLResearchSourceResponse(BaseModel):
+    title: str
+    sources: list[dict]
+
+
 class MLStatusResponse(BaseModel):
     trained: bool
     trained_at: datetime | None

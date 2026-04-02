@@ -1,0 +1,10 @@
+{
+  "model_name": "temporal_gnn",
+  "model_tag": "temporal_signal_planned_interface",
+  "training": {
+    "n_transactions": 3800,
+    "n_accounts": 620,
+    "fraud_rate": 0.1,
+    "random_seed": 105
+  }
+}

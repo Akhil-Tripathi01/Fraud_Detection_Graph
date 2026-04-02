@@ -80,6 +80,12 @@ def test_ml_api_train_report_predict():
     assert len(landscape["research_trends"]) > 0
     assert len(landscape["next_steps"]) > 0
 
+    source_resp = client.get("/api/ml/research-sources")
+    assert source_resp.status_code == 200
+    sources = source_resp.json()
+    assert len(sources["sources"]) > 0
+    assert any(item["category"] == "official_docs" for item in sources["sources"])
+
     predict_resp = client.post("/api/ml/predict", json={"account_id": "ACC_UNKNOWN_001"})
     assert predict_resp.status_code == 200
     pred = predict_resp.json()
