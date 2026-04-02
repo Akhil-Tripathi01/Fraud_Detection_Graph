@@ -77,3 +77,19 @@ def test_ml_api_train_report_predict():
     assert compare["base_tag"] == saved_tag
     assert compare["candidate_tag"] == saved_tag2
     assert "roc_auc_delta" in compare["deltas"]
+
+
+def test_example_cases_endpoints():
+    client = TestClient(app)
+
+    summary_resp = client.get("/api/example-cases/summary")
+    assert summary_resp.status_code == 200
+    summary = summary_resp.json()
+    assert summary["total_cases"] == 100
+    assert summary["blocked_count"] + summary["review_count"] + summary["allow_count"] == 100
+
+    cases_resp = client.get("/api/example-cases")
+    assert cases_resp.status_code == 200
+    cases = cases_resp.json()
+    assert len(cases) == 100
+    assert {"case_id", "scenario", "risk_score", "decision", "transaction"}.issubset(cases[0].keys())

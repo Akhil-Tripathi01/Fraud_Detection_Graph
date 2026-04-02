@@ -53,8 +53,8 @@
   <body>
     <div class="wrap">
       <div class="header">
-        <h1>Fraud_Detection_Graph</h1>
-        <p>Interactive, Jupyter-like workflow for Step 1 to Step 10.</p>
+        <h1>Predictive Financial Fraud Detection Using Behavioral Graph Learning</h1>
+        <p>Fraud_Detection_Graph - notebook-style execution aligned to your reference notebook.</p>
       </div>
       <div class="topbar">
         <button id="runAllBtn">Run All Cells</button>
@@ -63,6 +63,25 @@
         <button id="loadBtn">Load Latest Model</button>
         <button id="modelsBtn">List Saved Models</button>
       </div>
+
+      <section class="cell md">
+        <h2>Project Overview</h2>
+        <ul>
+          <li>End-to-end graph learning inspired fraud detection workflow.</li>
+          <li>Backend + middleend + frontend integrated in one running app.</li>
+          <li>Research, diagnostics, and model governance included.</li>
+        </ul>
+      </section>
+
+      <section class="cell md">
+        <h2>Environment Setup</h2>
+        <p>Dependencies are installed from <code>requirements.txt</code>; use this page to execute pipeline steps.</p>
+      </section>
+
+      <section class="cell md">
+        <h2>Imports</h2>
+        <p>Core stack: FastAPI, pandas, numpy, networkx, scikit-learn, and browser-side JS for notebook interaction.</p>
+      </section>
 
       <section class="cell md">
         <h2>Step 1: Data Loading & Exploratory Data Analysis</h2>
@@ -78,7 +97,27 @@
       </section>
 
       <section class="cell md">
-        <h2>Step 2-6: Graph Construction, Features, Model Building, Training</h2>
+        <h2>Step 2: Graph Construction</h2>
+        <p>Graph edges/nodes are created in training pipeline and reflected in report/metrics outputs.</p>
+      </section>
+
+      <section class="cell md">
+        <h2>Step 3: Feature Engineering</h2>
+        <p>Node-level behavioral features are computed (volume, timing, diversity, graph centrality).</p>
+      </section>
+
+      <section class="cell md">
+        <h2>Step 4: Graph to Data Object</h2>
+        <p>Graph features are transformed into model-ready tabular vectors for account-level classification.</p>
+      </section>
+
+      <section class="cell md">
+        <h2>Step 5: Model Building - GraphSAGE Style Objective</h2>
+        <p>Current production baseline uses a robust tree ensemble; interface is GNN-upgrade ready.</p>
+      </section>
+
+      <section class="cell md">
+        <h2>Step 6: Training Loop</h2>
         <p>Train the pipeline on synthetic transaction graph data.</p>
       </section>
       <section class="cell code">
@@ -103,7 +142,7 @@
       </section>
 
       <section class="cell md">
-        <h2>Step 7-8: Evaluation & Visualization Inputs</h2>
+        <h2>Step 7: Evaluation</h2>
         <p>Fetch model diagnostics (metrics, confusion matrix, feature importances).</p>
       </section>
       <section class="cell code">
@@ -113,6 +152,11 @@
         </div>
         <pre>GET /api/ml/report</pre>
         <div id="out-report" class="out">Not executed.</div>
+      </section>
+
+      <section class="cell md">
+        <h2>Step 8: Visualization - Loss/ROC Equivalent Diagnostics</h2>
+        <p>Use report/profile outputs plus dashboard charts for practical visualization of model behavior.</p>
       </section>
 
       <section class="cell md">
@@ -150,7 +194,7 @@
       </section>
 
       <section class="cell md">
-        <h2>Research Cell</h2>
+        <h2>Bonus: Why Graph ML is Better Than Traditional Fraud Detection</h2>
         <p>Fetch concise findings and recommendations from the research layer.</p>
       </section>
       <section class="cell code">
@@ -163,8 +207,8 @@
       </section>
 
       <section class="cell md">
-        <h2>Model Governance Cell</h2>
-        <p>Inspect saved model metadata and compare two versions.</p>
+        <h2>Bonus: Real-Time Deployment with FastAPI</h2>
+        <p>Inspect runtime model status, persistence, version manifests, and comparisons.</p>
       </section>
       <section class="cell code">
         <div class="toolbar">
@@ -185,6 +229,15 @@
           <input class="in" id="candidateTag" type="text" placeholder="candidate tag" style="width:220px;" />
         </div>
         <div id="out-compare" class="out">Not executed.</div>
+      </section>
+
+      <section class="cell md">
+        <h2>Project Summary</h2>
+        <ul>
+          <li>Notebook flow is now aligned to the original section pattern.</li>
+          <li>All major steps are executable with live API outputs.</li>
+          <li>Model governance and research are integrated as advanced extensions.</li>
+        </ul>
       </section>
     </div>
 

@@ -41,6 +41,25 @@ class DashboardMetrics(BaseModel):
     high_risk_percentage: float
 
 
+class ExampleCase(BaseModel):
+    case_id: str
+    scenario: str
+    expected_pattern: str
+    transaction: dict
+    risk_score: int
+    decision: Literal["allow", "review", "block"]
+    reasons: list[str]
+
+
+class ExampleCaseSummary(BaseModel):
+    total_cases: int
+    blocked_count: int
+    review_count: int
+    allow_count: int
+    average_risk_score: float
+    highest_risk_case: str | None
+
+
 class MLTrainRequest(BaseModel):
     n_transactions: int = Field(default=3000, ge=500, le=20000)
     n_accounts: int = Field(default=500, ge=100, le=5000)

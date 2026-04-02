@@ -1,0 +1,2109 @@
+[
+  {
+    "case_id": "CASE_001",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-001",
+      "user_id": "UR001",
+      "merchant_id": "MRING",
+      "device_id": "DRING_0",
+      "amount": 18500.0,
+      "timestamp": "2026-04-01T09:00:00+00:00",
+      "ip_address": "203.0.113.10",
+      "channel": "web",
+      "country": "AE"
+    },
+    "risk_score": 13,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_002",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-002",
+      "user_id": "UR002",
+      "merchant_id": "MRING",
+      "device_id": "DRING_1",
+      "amount": 19020.0,
+      "timestamp": "2026-04-02T10:07:00+00:00",
+      "ip_address": "203.0.113.11",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 13,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_003",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-003",
+      "user_id": "UR003",
+      "merchant_id": "MRING",
+      "device_id": "DRING_2",
+      "amount": 19540.0,
+      "timestamp": "2026-04-03T11:14:00+00:00",
+      "ip_address": "203.0.113.12",
+      "channel": "web",
+      "country": "AE"
+    },
+    "risk_score": 13,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_004",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-004",
+      "user_id": "UR004",
+      "merchant_id": "MRING",
+      "device_id": "DRING_0",
+      "amount": 20060.0,
+      "timestamp": "2026-04-04T12:21:00+00:00",
+      "ip_address": "203.0.113.13",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 13,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_005",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-005",
+      "user_id": "UR005",
+      "merchant_id": "MRING",
+      "device_id": "DRING_1",
+      "amount": 20580.0,
+      "timestamp": "2026-04-05T13:28:00+00:00",
+      "ip_address": "203.0.113.10",
+      "channel": "web",
+      "country": "AE"
+    },
+    "risk_score": 13,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_006",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-006",
+      "user_id": "UR006",
+      "merchant_id": "MRING",
+      "device_id": "DRING_2",
+      "amount": 21100.0,
+      "timestamp": "2026-04-01T14:35:00+00:00",
+      "ip_address": "203.0.113.11",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 13,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_007",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-007",
+      "user_id": "UR007",
+      "merchant_id": "MRING",
+      "device_id": "DRING_0",
+      "amount": 21620.0,
+      "timestamp": "2026-04-02T15:42:00+00:00",
+      "ip_address": "203.0.113.12",
+      "channel": "web",
+      "country": "AE"
+    },
+    "risk_score": 13,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_008",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-008",
+      "user_id": "UR008",
+      "merchant_id": "MRING",
+      "device_id": "DRING_1",
+      "amount": 22140.0,
+      "timestamp": "2026-04-03T16:49:00+00:00",
+      "ip_address": "203.0.113.13",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 13,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_009",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-009",
+      "user_id": "UR009",
+      "merchant_id": "MRING",
+      "device_id": "DRING_2",
+      "amount": 22660.0,
+      "timestamp": "2026-04-04T17:56:00+00:00",
+      "ip_address": "203.0.113.10",
+      "channel": "web",
+      "country": "AE"
+    },
+    "risk_score": 13,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_010",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-010",
+      "user_id": "UR010",
+      "merchant_id": "MRING",
+      "device_id": "DRING_0",
+      "amount": 23180.0,
+      "timestamp": "2026-04-05T18:03:00+00:00",
+      "ip_address": "203.0.113.11",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 25,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_011",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-011",
+      "user_id": "UR011",
+      "merchant_id": "MRING",
+      "device_id": "DRING_1",
+      "amount": 23700.0,
+      "timestamp": "2026-04-01T09:10:00+00:00",
+      "ip_address": "203.0.113.12",
+      "channel": "web",
+      "country": "AE"
+    },
+    "risk_score": 25,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_012",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-012",
+      "user_id": "UR012",
+      "merchant_id": "MRING",
+      "device_id": "DRING_2",
+      "amount": 24220.0,
+      "timestamp": "2026-04-02T10:17:00+00:00",
+      "ip_address": "203.0.113.13",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 25,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_013",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-013",
+      "user_id": "UR013",
+      "merchant_id": "MRING",
+      "device_id": "DRING_0",
+      "amount": 24740.0,
+      "timestamp": "2026-04-03T11:24:00+00:00",
+      "ip_address": "203.0.113.10",
+      "channel": "web",
+      "country": "AE"
+    },
+    "risk_score": 38,
+    "decision": "allow",
+    "reasons": [
+      "Shared infrastructure pattern detected (device/IP reused across users)."
+    ]
+  },
+  {
+    "case_id": "CASE_014",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-014",
+      "user_id": "UR014",
+      "merchant_id": "MRING",
+      "device_id": "DRING_1",
+      "amount": 25260.0,
+      "timestamp": "2026-04-04T12:31:00+00:00",
+      "ip_address": "203.0.113.11",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 38,
+    "decision": "allow",
+    "reasons": [
+      "Shared infrastructure pattern detected (device/IP reused across users)."
+    ]
+  },
+  {
+    "case_id": "CASE_015",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-015",
+      "user_id": "UR015",
+      "merchant_id": "MRING",
+      "device_id": "DRING_2",
+      "amount": 25780.0,
+      "timestamp": "2026-04-05T13:38:00+00:00",
+      "ip_address": "203.0.113.12",
+      "channel": "web",
+      "country": "AE"
+    },
+    "risk_score": 38,
+    "decision": "allow",
+    "reasons": [
+      "Shared infrastructure pattern detected (device/IP reused across users)."
+    ]
+  },
+  {
+    "case_id": "CASE_016",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-016",
+      "user_id": "UR016",
+      "merchant_id": "MRING",
+      "device_id": "DRING_0",
+      "amount": 26300.0,
+      "timestamp": "2026-04-01T14:45:00+00:00",
+      "ip_address": "203.0.113.13",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 42,
+    "decision": "allow",
+    "reasons": [
+      "Shared infrastructure pattern detected (device/IP reused across users)."
+    ]
+  },
+  {
+    "case_id": "CASE_017",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-017",
+      "user_id": "UR017",
+      "merchant_id": "MRING",
+      "device_id": "DRING_1",
+      "amount": 26820.0,
+      "timestamp": "2026-04-02T15:52:00+00:00",
+      "ip_address": "203.0.113.10",
+      "channel": "web",
+      "country": "AE"
+    },
+    "risk_score": 45,
+    "decision": "allow",
+    "reasons": [
+      "Shared infrastructure pattern detected (device/IP reused across users)."
+    ]
+  },
+  {
+    "case_id": "CASE_018",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-018",
+      "user_id": "UR018",
+      "merchant_id": "MRING",
+      "device_id": "DRING_2",
+      "amount": 27340.0,
+      "timestamp": "2026-04-03T16:59:00+00:00",
+      "ip_address": "203.0.113.11",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 45,
+    "decision": "allow",
+    "reasons": [
+      "Shared infrastructure pattern detected (device/IP reused across users)."
+    ]
+  },
+  {
+    "case_id": "CASE_019",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-019",
+      "user_id": "UR019",
+      "merchant_id": "MRING",
+      "device_id": "DRING_0",
+      "amount": 27860.0,
+      "timestamp": "2026-04-04T17:06:00+00:00",
+      "ip_address": "203.0.113.12",
+      "channel": "web",
+      "country": "AE"
+    },
+    "risk_score": 48,
+    "decision": "allow",
+    "reasons": [
+      "Shared infrastructure pattern detected (device/IP reused across users)."
+    ]
+  },
+  {
+    "case_id": "CASE_020",
+    "scenario": "fraud_ring_velocity",
+    "expected_pattern": "Shared device and IP reused across many users in a short window.",
+    "transaction": {
+      "transaction_id": "EX-020",
+      "user_id": "UR020",
+      "merchant_id": "MRING",
+      "device_id": "DRING_1",
+      "amount": 28380.0,
+      "timestamp": "2026-04-05T18:13:00+00:00",
+      "ip_address": "203.0.113.13",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 48,
+    "decision": "allow",
+    "reasons": [
+      "Shared infrastructure pattern detected (device/IP reused across users)."
+    ]
+  },
+  {
+    "case_id": "CASE_021",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-021",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_0",
+      "device_id": "D45",
+      "amount": 15000.0,
+      "timestamp": "2026-04-01T09:20:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 8,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_022",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-022",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_1",
+      "device_id": "D45",
+      "amount": 18500.0,
+      "timestamp": "2026-04-02T10:27:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_023",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-023",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_2",
+      "device_id": "D45",
+      "amount": 22000.0,
+      "timestamp": "2026-04-03T11:34:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_024",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-024",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_3",
+      "device_id": "D45",
+      "amount": 25500.0,
+      "timestamp": "2026-04-04T12:41:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_025",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-025",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_4",
+      "device_id": "D45",
+      "amount": 29000.0,
+      "timestamp": "2026-04-05T13:48:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_026",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-026",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_0",
+      "device_id": "D45",
+      "amount": 32500.0,
+      "timestamp": "2026-04-01T14:55:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_027",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-027",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_1",
+      "device_id": "D45",
+      "amount": 36000.0,
+      "timestamp": "2026-04-02T15:02:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_028",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-028",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_2",
+      "device_id": "D45",
+      "amount": 39500.0,
+      "timestamp": "2026-04-03T16:09:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_029",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-029",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_3",
+      "device_id": "D45",
+      "amount": 43000.0,
+      "timestamp": "2026-04-04T17:16:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_030",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-030",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_4",
+      "device_id": "D45",
+      "amount": 46500.0,
+      "timestamp": "2026-04-05T18:23:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_031",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-031",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_0",
+      "device_id": "D45",
+      "amount": 50000.0,
+      "timestamp": "2026-04-01T09:30:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_032",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-032",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_1",
+      "device_id": "D45",
+      "amount": 53500.0,
+      "timestamp": "2026-04-02T10:37:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_033",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-033",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_2",
+      "device_id": "D45",
+      "amount": 57000.0,
+      "timestamp": "2026-04-03T11:44:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_034",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-034",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_3",
+      "device_id": "D45",
+      "amount": 60500.0,
+      "timestamp": "2026-04-04T12:51:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_035",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-035",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_4",
+      "device_id": "D45",
+      "amount": 64000.0,
+      "timestamp": "2026-04-05T13:58:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_036",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-036",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_0",
+      "device_id": "D45",
+      "amount": 67500.0,
+      "timestamp": "2026-04-01T14:05:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_037",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-037",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_1",
+      "device_id": "D45",
+      "amount": 71000.0,
+      "timestamp": "2026-04-02T15:12:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_038",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-038",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_2",
+      "device_id": "D45",
+      "amount": 74500.0,
+      "timestamp": "2026-04-03T16:19:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_039",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-039",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_3",
+      "device_id": "D45",
+      "amount": 78000.0,
+      "timestamp": "2026-04-04T17:26:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_040",
+    "scenario": "amount_spike",
+    "expected_pattern": "Known user suddenly attempts a much larger transaction than normal.",
+    "transaction": {
+      "transaction_id": "EX-040",
+      "user_id": "U101",
+      "merchant_id": "MSPIKE_4",
+      "device_id": "D45",
+      "amount": 81500.0,
+      "timestamp": "2026-04-05T18:33:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_041",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-041",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_0",
+      "device_id": "DTRAVEL_0",
+      "amount": 4200.0,
+      "timestamp": "2026-04-01T09:40:00+00:00",
+      "ip_address": "198.51.100.30",
+      "channel": "web",
+      "country": "US"
+    },
+    "risk_score": 8,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_042",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-042",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_1",
+      "device_id": "DTRAVEL_1",
+      "amount": 4460.0,
+      "timestamp": "2026-04-02T10:47:00+00:00",
+      "ip_address": "198.51.100.31",
+      "channel": "atm",
+      "country": "AE"
+    },
+    "risk_score": 8,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_043",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-043",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_2",
+      "device_id": "DTRAVEL_2",
+      "amount": 4720.0,
+      "timestamp": "2026-04-03T11:54:00+00:00",
+      "ip_address": "198.51.100.32",
+      "channel": "web",
+      "country": "US"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_044",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-044",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_3",
+      "device_id": "DTRAVEL_3",
+      "amount": 4980.0,
+      "timestamp": "2026-04-04T12:01:00+00:00",
+      "ip_address": "198.51.100.33",
+      "channel": "atm",
+      "country": "AE"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_045",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-045",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_4",
+      "device_id": "DTRAVEL_0",
+      "amount": 5240.0,
+      "timestamp": "2026-04-05T13:08:00+00:00",
+      "ip_address": "198.51.100.34",
+      "channel": "web",
+      "country": "US"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_046",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-046",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_5",
+      "device_id": "DTRAVEL_1",
+      "amount": 5500.0,
+      "timestamp": "2026-04-01T14:15:00+00:00",
+      "ip_address": "198.51.100.35",
+      "channel": "atm",
+      "country": "AE"
+    },
+    "risk_score": 15,
+    "decision": "allow",
+    "reasons": [
+      "Country mismatch vs historical behavior (US -> AE)."
+    ]
+  },
+  {
+    "case_id": "CASE_047",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-047",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_0",
+      "device_id": "DTRAVEL_2",
+      "amount": 5760.0,
+      "timestamp": "2026-04-02T15:22:00+00:00",
+      "ip_address": "198.51.100.36",
+      "channel": "web",
+      "country": "US"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_048",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-048",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_1",
+      "device_id": "DTRAVEL_3",
+      "amount": 6020.0,
+      "timestamp": "2026-04-03T16:29:00+00:00",
+      "ip_address": "198.51.100.37",
+      "channel": "atm",
+      "country": "AE"
+    },
+    "risk_score": 23,
+    "decision": "allow",
+    "reasons": [
+      "Country mismatch vs historical behavior (US -> AE).",
+      "Channel switch detected (web -> atm)."
+    ]
+  },
+  {
+    "case_id": "CASE_049",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-049",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_2",
+      "device_id": "DTRAVEL_0",
+      "amount": 6280.0,
+      "timestamp": "2026-04-04T17:36:00+00:00",
+      "ip_address": "198.51.100.38",
+      "channel": "web",
+      "country": "US"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_050",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-050",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_3",
+      "device_id": "DTRAVEL_1",
+      "amount": 6540.0,
+      "timestamp": "2026-04-05T18:43:00+00:00",
+      "ip_address": "198.51.100.39",
+      "channel": "atm",
+      "country": "AE"
+    },
+    "risk_score": 23,
+    "decision": "allow",
+    "reasons": [
+      "Country mismatch vs historical behavior (US -> AE).",
+      "Channel switch detected (web -> atm)."
+    ]
+  },
+  {
+    "case_id": "CASE_051",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-051",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_4",
+      "device_id": "DTRAVEL_2",
+      "amount": 6800.0,
+      "timestamp": "2026-04-01T09:50:00+00:00",
+      "ip_address": "198.51.100.40",
+      "channel": "web",
+      "country": "US"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_052",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-052",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_5",
+      "device_id": "DTRAVEL_3",
+      "amount": 7060.0,
+      "timestamp": "2026-04-02T10:57:00+00:00",
+      "ip_address": "198.51.100.41",
+      "channel": "atm",
+      "country": "AE"
+    },
+    "risk_score": 23,
+    "decision": "allow",
+    "reasons": [
+      "Country mismatch vs historical behavior (US -> AE).",
+      "Channel switch detected (web -> atm)."
+    ]
+  },
+  {
+    "case_id": "CASE_053",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-053",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_0",
+      "device_id": "DTRAVEL_0",
+      "amount": 7320.0,
+      "timestamp": "2026-04-03T11:04:00+00:00",
+      "ip_address": "198.51.100.42",
+      "channel": "web",
+      "country": "US"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_054",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-054",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_1",
+      "device_id": "DTRAVEL_1",
+      "amount": 7580.0,
+      "timestamp": "2026-04-04T12:11:00+00:00",
+      "ip_address": "198.51.100.43",
+      "channel": "atm",
+      "country": "AE"
+    },
+    "risk_score": 23,
+    "decision": "allow",
+    "reasons": [
+      "Country mismatch vs historical behavior (US -> AE).",
+      "Channel switch detected (web -> atm)."
+    ]
+  },
+  {
+    "case_id": "CASE_055",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-055",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_2",
+      "device_id": "DTRAVEL_2",
+      "amount": 7840.0,
+      "timestamp": "2026-04-05T13:18:00+00:00",
+      "ip_address": "198.51.100.44",
+      "channel": "web",
+      "country": "US"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_056",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-056",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_3",
+      "device_id": "DTRAVEL_3",
+      "amount": 8100.0,
+      "timestamp": "2026-04-01T14:25:00+00:00",
+      "ip_address": "198.51.100.45",
+      "channel": "atm",
+      "country": "AE"
+    },
+    "risk_score": 23,
+    "decision": "allow",
+    "reasons": [
+      "Country mismatch vs historical behavior (US -> AE).",
+      "Channel switch detected (web -> atm)."
+    ]
+  },
+  {
+    "case_id": "CASE_057",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-057",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_4",
+      "device_id": "DTRAVEL_0",
+      "amount": 8360.0,
+      "timestamp": "2026-04-02T15:32:00+00:00",
+      "ip_address": "198.51.100.46",
+      "channel": "web",
+      "country": "US"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_058",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-058",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_5",
+      "device_id": "DTRAVEL_1",
+      "amount": 8620.0,
+      "timestamp": "2026-04-03T16:39:00+00:00",
+      "ip_address": "198.51.100.47",
+      "channel": "atm",
+      "country": "AE"
+    },
+    "risk_score": 23,
+    "decision": "allow",
+    "reasons": [
+      "Country mismatch vs historical behavior (US -> AE).",
+      "Channel switch detected (web -> atm)."
+    ]
+  },
+  {
+    "case_id": "CASE_059",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-059",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_0",
+      "device_id": "DTRAVEL_2",
+      "amount": 8880.0,
+      "timestamp": "2026-04-04T17:46:00+00:00",
+      "ip_address": "198.51.100.48",
+      "channel": "web",
+      "country": "US"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_060",
+    "scenario": "geo_channel_shift",
+    "expected_pattern": "User shifts country and channel away from historical behavior.",
+    "transaction": {
+      "transaction_id": "EX-060",
+      "user_id": "U305",
+      "merchant_id": "MTRAVEL_1",
+      "device_id": "DTRAVEL_3",
+      "amount": 9140.0,
+      "timestamp": "2026-04-05T18:53:00+00:00",
+      "ip_address": "198.51.100.49",
+      "channel": "atm",
+      "country": "AE"
+    },
+    "risk_score": 23,
+    "decision": "allow",
+    "reasons": [
+      "Country mismatch vs historical behavior (US -> AE).",
+      "Channel switch detected (web -> atm)."
+    ]
+  },
+  {
+    "case_id": "CASE_061",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-061",
+      "user_id": "U101",
+      "merchant_id": "MREG_0",
+      "device_id": "D45",
+      "amount": 900.0,
+      "timestamp": "2026-04-01T09:00:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_062",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-062",
+      "user_id": "U101",
+      "merchant_id": "MREG_1",
+      "device_id": "D45",
+      "amount": 980.0,
+      "timestamp": "2026-04-02T10:07:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_063",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-063",
+      "user_id": "U101",
+      "merchant_id": "MREG_2",
+      "device_id": "D45",
+      "amount": 1060.0,
+      "timestamp": "2026-04-03T11:14:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_064",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-064",
+      "user_id": "U101",
+      "merchant_id": "MREG_3",
+      "device_id": "D45",
+      "amount": 1140.0,
+      "timestamp": "2026-04-04T12:21:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_065",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-065",
+      "user_id": "U101",
+      "merchant_id": "MREG_4",
+      "device_id": "D45",
+      "amount": 1220.0,
+      "timestamp": "2026-04-05T13:28:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_066",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-066",
+      "user_id": "U101",
+      "merchant_id": "MREG_5",
+      "device_id": "D45",
+      "amount": 1300.0,
+      "timestamp": "2026-04-01T14:35:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_067",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-067",
+      "user_id": "U101",
+      "merchant_id": "MREG_6",
+      "device_id": "D45",
+      "amount": 1380.0,
+      "timestamp": "2026-04-02T15:42:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_068",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-068",
+      "user_id": "U101",
+      "merchant_id": "MREG_7",
+      "device_id": "D45",
+      "amount": 1460.0,
+      "timestamp": "2026-04-03T16:49:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_069",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-069",
+      "user_id": "U101",
+      "merchant_id": "MREG_0",
+      "device_id": "D45",
+      "amount": 1540.0,
+      "timestamp": "2026-04-04T17:56:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_070",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-070",
+      "user_id": "U101",
+      "merchant_id": "MREG_1",
+      "device_id": "D45",
+      "amount": 1620.0,
+      "timestamp": "2026-04-05T18:03:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_071",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-071",
+      "user_id": "U101",
+      "merchant_id": "MREG_2",
+      "device_id": "D45",
+      "amount": 1700.0,
+      "timestamp": "2026-04-01T09:10:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_072",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-072",
+      "user_id": "U101",
+      "merchant_id": "MREG_3",
+      "device_id": "D45",
+      "amount": 1780.0,
+      "timestamp": "2026-04-02T10:17:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_073",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-073",
+      "user_id": "U101",
+      "merchant_id": "MREG_4",
+      "device_id": "D45",
+      "amount": 1860.0,
+      "timestamp": "2026-04-03T11:24:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_074",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-074",
+      "user_id": "U101",
+      "merchant_id": "MREG_5",
+      "device_id": "D45",
+      "amount": 1940.0,
+      "timestamp": "2026-04-04T12:31:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_075",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-075",
+      "user_id": "U101",
+      "merchant_id": "MREG_6",
+      "device_id": "D45",
+      "amount": 2020.0,
+      "timestamp": "2026-04-05T13:38:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_076",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-076",
+      "user_id": "U101",
+      "merchant_id": "MREG_7",
+      "device_id": "D45",
+      "amount": 2100.0,
+      "timestamp": "2026-04-01T14:45:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_077",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-077",
+      "user_id": "U101",
+      "merchant_id": "MREG_0",
+      "device_id": "D45",
+      "amount": 2180.0,
+      "timestamp": "2026-04-02T15:52:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_078",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-078",
+      "user_id": "U101",
+      "merchant_id": "MREG_1",
+      "device_id": "D45",
+      "amount": 2260.0,
+      "timestamp": "2026-04-03T16:59:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_079",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-079",
+      "user_id": "U101",
+      "merchant_id": "MREG_2",
+      "device_id": "D45",
+      "amount": 2340.0,
+      "timestamp": "2026-04-04T17:06:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_080",
+    "scenario": "normal_repeat_customer",
+    "expected_pattern": "Stable domestic repeat customer using familiar device and IP.",
+    "transaction": {
+      "transaction_id": "EX-080",
+      "user_id": "U101",
+      "merchant_id": "MREG_3",
+      "device_id": "D45",
+      "amount": 2420.0,
+      "timestamp": "2026-04-05T18:13:00+00:00",
+      "ip_address": "49.32.100.10",
+      "channel": "mobile",
+      "country": "IN"
+    },
+    "risk_score": 5,
+    "decision": "allow",
+    "reasons": [
+      "No strong anomaly signal found."
+    ]
+  },
+  {
+    "case_id": "CASE_081",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-081",
+      "user_id": "UNEW_001",
+      "merchant_id": "MLUX_0",
+      "device_id": "DNEW_0",
+      "amount": 52000.0,
+      "timestamp": "2026-04-01T09:20:00+00:00",
+      "ip_address": "145.14.2.40",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 25,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_082",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-082",
+      "user_id": "UNEW_002",
+      "merchant_id": "MLUX_1",
+      "device_id": "DNEW_1",
+      "amount": 53800.0,
+      "timestamp": "2026-04-02T10:27:00+00:00",
+      "ip_address": "145.14.2.41",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_083",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-083",
+      "user_id": "UNEW_003",
+      "merchant_id": "MLUX_2",
+      "device_id": "DNEW_2",
+      "amount": 55600.0,
+      "timestamp": "2026-04-03T11:34:00+00:00",
+      "ip_address": "145.14.2.42",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_084",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-084",
+      "user_id": "UNEW_004",
+      "merchant_id": "MLUX_3",
+      "device_id": "DNEW_3",
+      "amount": 57400.0,
+      "timestamp": "2026-04-04T12:41:00+00:00",
+      "ip_address": "145.14.2.43",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 25,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_085",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-085",
+      "user_id": "UNEW_005",
+      "merchant_id": "MLUX_4",
+      "device_id": "DNEW_4",
+      "amount": 59200.0,
+      "timestamp": "2026-04-05T13:48:00+00:00",
+      "ip_address": "145.14.2.44",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_086",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-086",
+      "user_id": "UNEW_006",
+      "merchant_id": "MLUX_0",
+      "device_id": "DNEW_5",
+      "amount": 61000.0,
+      "timestamp": "2026-04-01T14:55:00+00:00",
+      "ip_address": "145.14.2.45",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_087",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-087",
+      "user_id": "UNEW_007",
+      "merchant_id": "MLUX_1",
+      "device_id": "DNEW_6",
+      "amount": 62800.0,
+      "timestamp": "2026-04-02T15:02:00+00:00",
+      "ip_address": "145.14.2.46",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 25,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_088",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-088",
+      "user_id": "UNEW_008",
+      "merchant_id": "MLUX_2",
+      "device_id": "DNEW_0",
+      "amount": 64600.0,
+      "timestamp": "2026-04-03T16:09:00+00:00",
+      "ip_address": "145.14.2.47",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_089",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-089",
+      "user_id": "UNEW_009",
+      "merchant_id": "MLUX_3",
+      "device_id": "DNEW_1",
+      "amount": 66400.0,
+      "timestamp": "2026-04-04T17:16:00+00:00",
+      "ip_address": "145.14.2.48",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_090",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-090",
+      "user_id": "UNEW_010",
+      "merchant_id": "MLUX_4",
+      "device_id": "DNEW_2",
+      "amount": 68200.0,
+      "timestamp": "2026-04-05T18:23:00+00:00",
+      "ip_address": "145.14.2.49",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 25,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_091",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-091",
+      "user_id": "UNEW_011",
+      "merchant_id": "MLUX_0",
+      "device_id": "DNEW_3",
+      "amount": 70000.0,
+      "timestamp": "2026-04-01T09:30:00+00:00",
+      "ip_address": "145.14.2.50",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_092",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-092",
+      "user_id": "UNEW_012",
+      "merchant_id": "MLUX_1",
+      "device_id": "DNEW_4",
+      "amount": 71800.0,
+      "timestamp": "2026-04-02T10:37:00+00:00",
+      "ip_address": "145.14.2.51",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_093",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-093",
+      "user_id": "UNEW_013",
+      "merchant_id": "MLUX_2",
+      "device_id": "DNEW_5",
+      "amount": 73600.0,
+      "timestamp": "2026-04-03T11:44:00+00:00",
+      "ip_address": "145.14.2.52",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 25,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_094",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-094",
+      "user_id": "UNEW_014",
+      "merchant_id": "MLUX_3",
+      "device_id": "DNEW_6",
+      "amount": 75400.0,
+      "timestamp": "2026-04-04T12:51:00+00:00",
+      "ip_address": "145.14.2.53",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_095",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-095",
+      "user_id": "UNEW_015",
+      "merchant_id": "MLUX_4",
+      "device_id": "DNEW_0",
+      "amount": 77200.0,
+      "timestamp": "2026-04-05T13:58:00+00:00",
+      "ip_address": "145.14.2.54",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_096",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-096",
+      "user_id": "UNEW_016",
+      "merchant_id": "MLUX_0",
+      "device_id": "DNEW_1",
+      "amount": 79000.0,
+      "timestamp": "2026-04-01T14:05:00+00:00",
+      "ip_address": "145.14.2.55",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 25,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_097",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-097",
+      "user_id": "UNEW_017",
+      "merchant_id": "MLUX_1",
+      "device_id": "DNEW_2",
+      "amount": 80800.0,
+      "timestamp": "2026-04-02T15:12:00+00:00",
+      "ip_address": "145.14.2.56",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_098",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-098",
+      "user_id": "UNEW_018",
+      "merchant_id": "MLUX_2",
+      "device_id": "DNEW_3",
+      "amount": 82600.0,
+      "timestamp": "2026-04-03T16:19:00+00:00",
+      "ip_address": "145.14.2.57",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_099",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-099",
+      "user_id": "UNEW_019",
+      "merchant_id": "MLUX_3",
+      "device_id": "DNEW_4",
+      "amount": 84400.0,
+      "timestamp": "2026-04-04T17:26:00+00:00",
+      "ip_address": "145.14.2.58",
+      "channel": "web",
+      "country": "SG"
+    },
+    "risk_score": 25,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  },
+  {
+    "case_id": "CASE_100",
+    "scenario": "new_user_high_value",
+    "expected_pattern": "Low-history user attempts a high-value online purchase.",
+    "transaction": {
+      "transaction_id": "EX-100",
+      "user_id": "UNEW_020",
+      "merchant_id": "MLUX_4",
+      "device_id": "DNEW_5",
+      "amount": 86200.0,
+      "timestamp": "2026-04-05T18:33:00+00:00",
+      "ip_address": "145.14.2.59",
+      "channel": "web",
+      "country": "IN"
+    },
+    "risk_score": 20,
+    "decision": "allow",
+    "reasons": [
+      "High-value transaction from low-history user."
+    ]
+  }
+]

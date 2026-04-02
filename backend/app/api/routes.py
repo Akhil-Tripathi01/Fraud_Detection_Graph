@@ -2,6 +2,8 @@ from fastapi import APIRouter, Query
 
 from backend.app.models.schemas import (
     DashboardMetrics,
+    ExampleCase,
+    ExampleCaseSummary,
     GraphSummary,
     MLDataProfileResponse,
     MLEvaluationMetrics,
@@ -51,6 +53,16 @@ def graph_summary() -> GraphSummary:
 @router.get("/dashboard/metrics", response_model=DashboardMetrics)
 def dashboard_metrics() -> DashboardMetrics:
     return fraud_service.metrics()
+
+
+@router.get("/example-cases", response_model=list[ExampleCase])
+def example_cases(limit: int = Query(default=100, ge=1, le=100)) -> list[ExampleCase]:
+    return [ExampleCase(**case) for case in fraud_service.example_cases(limit=limit)]
+
+
+@router.get("/example-cases/summary", response_model=ExampleCaseSummary)
+def example_case_summary(limit: int = Query(default=100, ge=1, le=100)) -> ExampleCaseSummary:
+    return fraud_service.example_case_summary(limit=limit)
 
 
 @router.post("/ml/train", response_model=MLTrainResponse)
