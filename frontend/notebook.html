@@ -6,31 +6,185 @@
     <title>Fraud_Detection_Graph</title>
     <style>
       :root {
-        --bg: #f6f8f7;
+        --bg: #f4efe6;
         --ink: #1f2d28;
         --muted: #5e746b;
         --card: #ffffff;
+        --card-soft: #fcf7ef;
         --code: #0f1f1a;
-        --accent: #117a4f;
+        --accent: #136f63;
+        --accent-soft: #dff1ec;
+        --line: #d8cfbe;
+        --warning-soft: #fff1de;
       }
       * { box-sizing: border-box; }
-      body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Segoe UI", Tahoma, sans-serif; }
-      .wrap { max-width: 980px; margin: 0 auto; padding: 18px; }
-      .header { margin-bottom: 12px; }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at top left, rgba(19, 111, 99, 0.12), transparent 25%),
+          linear-gradient(180deg, #faf6ee 0%, var(--bg) 56%, #ece4d5 100%);
+        color: var(--ink);
+        font-family: "Segoe UI", Tahoma, sans-serif;
+      }
+      .wrap { max-width: 1180px; margin: 0 auto; padding: 24px; }
+      .header {
+        margin-bottom: 16px;
+        padding: 26px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, rgba(9, 45, 57, 0.96), rgba(19, 111, 99, 0.86));
+        color: #f6fbfa;
+      }
       .header h1 { margin: 0; }
-      .header p { margin: 4px 0 0; color: var(--muted); }
+      .header p { margin: 10px 0 0; color: rgba(246, 251, 250, 0.84); max-width: 72ch; line-height: 1.65; }
       .topbar {
         display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 14px;
       }
+      .top-status {
+        background: #eef8f2;
+        border: 1px solid #cfe4d8;
+        border-radius: 8px;
+        padding: 8px 10px;
+        margin-bottom: 12px;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+        white-space: pre-wrap;
+      }
       .cell {
         background: var(--card);
-        border: 1px solid #d8e2dd;
-        border-radius: 10px;
-        padding: 14px;
-        margin-bottom: 12px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 18px;
+        margin-bottom: 14px;
+        box-shadow: 0 18px 40px rgba(49, 39, 23, 0.08);
       }
       .md h2 { margin: 0 0 6px; }
       .md p, .md li { color: var(--muted); line-height: 1.45; }
+      .detail-grid, .stats-grid, .viz-grid {
+        display: grid;
+        gap: 12px;
+        margin-top: 14px;
+      }
+      .detail-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .stats-grid, .viz-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .detail-card, .stat-card, .viz-card {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--card-soft);
+        padding: 14px;
+      }
+      .detail-card h3, .stat-card h3, .viz-card h3 { margin: 0 0 8px; }
+      .detail-card p, .stat-card p, .viz-card p { margin: 0; color: var(--muted); line-height: 1.55; }
+      .metric {
+        display: block;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-top: 8px;
+      }
+      .metric-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+      .metric-list {
+        display: grid;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .metric-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #ebe1d2;
+        font-size: 13px;
+      }
+      .metric-row:last-child { border-bottom: 0; padding-bottom: 0; }
+      .bar-list { display: grid; gap: 10px; margin-top: 10px; }
+      .bar-row {
+        display: grid;
+        grid-template-columns: 100px 1fr 66px;
+        gap: 10px;
+        align-items: center;
+        font-size: 13px;
+      }
+      .bar-track {
+        height: 10px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: #ebe4d4;
+      }
+      .bar-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--accent), #5ea39f);
+      }
+      .note {
+        margin-top: 10px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--accent-soft);
+        padding: 12px;
+        color: #24443d;
+        line-height: 1.55;
+        font-size: 13px;
+      }
+      .note.warn { background: var(--warning-soft); color: #7b4e1f; }
+      .graph-svg {
+        width: 100%;
+        height: 250px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background:
+          radial-gradient(circle at 20% 15%, rgba(19, 111, 99, 0.08), transparent 28%),
+          linear-gradient(180deg, rgba(255, 253, 247, 0.98), rgba(242, 236, 224, 0.94));
+      }
+      .line-svg {
+        width: 100%;
+        height: 260px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, #fffdf8, #f2eadb);
+      }
+      .heatmap-grid {
+        display: grid;
+        gap: 4px;
+        margin-top: 12px;
+      }
+      .heatmap-row {
+        display: grid;
+        gap: 4px;
+      }
+      .heatmap-cell {
+        min-height: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 8px;
+        font-size: 12px;
+        color: #11211e;
+        background: #ece3d2;
+      }
+      .mini-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 13px;
+      }
+      .mini-table th, .mini-table td {
+        padding: 8px;
+        border-bottom: 1px solid #ebe1d2;
+        text-align: left;
+      }
+      .mini-table th {
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
       .code .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
       .lang { font-size: 12px; color: var(--muted); }
       button {
@@ -48,13 +202,21 @@
         margin-top: 8px; border: 1px solid #d8e2dd; border-radius: 8px;
         background: #fcfefd; padding: 10px; font-family: Consolas, monospace; font-size: 13px; white-space: pre-wrap;
       }
+      @media (max-width: 860px) {
+        .detail-grid, .stats-grid, .viz-grid { grid-template-columns: 1fr; }
+        .bar-row { grid-template-columns: 82px 1fr 58px; }
+      }
     </style>
   </head>
   <body>
     <div class="wrap">
       <div class="header">
         <h1>Predictive Financial Fraud Detection Using Behavioral Graph Learning</h1>
-        <p>Fraud_Detection_Graph - notebook-style execution aligned to your reference notebook.</p>
+        <p>
+          Fraud_Detection_Graph now reads more like a guided research lab: each step keeps the runnable notebook cell,
+          but also adds live graph summaries, model diagnostics, and operational interpretation so the pipeline is easy
+          to explain from raw data through deployment.
+        </p>
       </div>
       <div class="topbar">
         <button id="runAllBtn">Run All Cells</button>
@@ -62,7 +224,38 @@
         <button id="saveBtn">Save Model</button>
         <button id="loadBtn">Load Latest Model</button>
         <button id="modelsBtn">List Saved Models</button>
+        <select id="selectedModel" class="in" style="width:280px;">
+          <option value="">Select model tag...</option>
+        </select>
+        <button id="loadSelectedBtn">Load Selected Model</button>
       </div>
+      <div id="topStatus" class="top-status">Top Actions: Ready.</div>
+
+      <section class="cell">
+        <h2>Live Status</h2>
+        <p style="margin:6px 0 0; color:var(--muted); line-height:1.6;">
+          Quick health markers for the current notebook session and latest model state.
+        </p>
+        <div class="stats-grid">
+          <article class="stat-card"><span class="metric-label">Notebook Status</span><strong id="heroStatus" class="metric">Ready</strong></article>
+          <article class="stat-card"><span class="metric-label">Current Model</span><strong id="heroModel" class="metric">Loading</strong></article>
+          <article class="stat-card"><span class="metric-label">Graph Scale</span><strong id="heroGraph" class="metric">Awaiting data</strong></article>
+          <article class="stat-card"><span class="metric-label">Latest ROC-AUC</span><strong id="heroRoc" class="metric">Awaiting data</strong></article>
+        </div>
+      </section>
+
+      <section class="cell">
+        <h2>Notebook Snapshot</h2>
+        <p style="margin:6px 0 0; color:var(--muted); line-height:1.6;">
+          These live cards summarize the current dataset, graph, and model state so the rest of the notebook has context.
+        </p>
+        <div id="overviewStats" class="stats-grid">
+          <article class="stat-card"><span class="metric-label">Transactions</span><strong class="metric">-</strong></article>
+          <article class="stat-card"><span class="metric-label">Fraud Rate</span><strong class="metric">-</strong></article>
+          <article class="stat-card"><span class="metric-label">Node Types</span><strong class="metric">-</strong></article>
+          <article class="stat-card"><span class="metric-label">Saved Models</span><strong class="metric">-</strong></article>
+        </div>
+      </section>
 
       <section class="cell md">
         <h2>Project Overview</h2>
@@ -71,6 +264,20 @@
           <li>Backend + middleend + frontend integrated in one running app.</li>
           <li>Research, diagnostics, and model governance included.</li>
         </ul>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>Why Graphs Matter</h3>
+            <p>Fraud tends to hide in reuse patterns such as common devices, shared IPs, repeated merchants, and synchronized bursts.</p>
+          </article>
+          <article class="detail-card">
+            <h3>What The Notebook Adds</h3>
+            <p>Every major stage now has a visual explanation layer so results are readable without parsing raw JSON alone.</p>
+          </article>
+          <article class="detail-card">
+            <h3>How To Read It</h3>
+            <p>Move from profile, to graph shape, to training history, to model diagnostics, and then to prediction behavior.</p>
+          </article>
+        </div>
       </section>
 
       <section class="cell md">
@@ -86,6 +293,20 @@
       <section class="cell md">
         <h2>Step 1: Data Loading & Exploratory Data Analysis</h2>
         <p>Load data profile with fraud rate, amount stats, channel/country distributions, and risky devices.</p>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>Quality Gate</h3>
+            <p>This step tells us whether the synthetic traffic is rich enough to produce meaningful fraud patterns.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Behavior Signals</h3>
+            <p>We watch concentration in channels, geographies, and device-level fraud ratios to find structural pressure points.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Analyst View</h3>
+            <p>The visual cards below turn the profile endpoint into a compact EDA board.</p>
+          </article>
+        </div>
       </section>
       <section class="cell code">
         <div class="toolbar">
@@ -95,10 +316,50 @@
         <pre>GET /api/ml/data-profile</pre>
         <div id="out-profile" class="out">Not executed.</div>
       </section>
+      <section class="cell">
+        <h2>EDA Visuals</h2>
+        <div id="profileViz" class="viz-grid">
+          <article class="viz-card">
+            <h3>Amount Profile</h3>
+            <p>Run the data profile cell to populate this board.</p>
+          </article>
+          <article class="viz-card">
+            <h3>Channel Mix</h3>
+            <p>Channel and country distributions will render here.</p>
+          </article>
+        </div>
+      </section>
+      <section class="cell">
+        <h2>Detailed EDA Dashboard</h2>
+        <div id="edaNotebookViz" class="viz-grid">
+          <article class="viz-card">
+            <h3>Daily Transaction Volume</h3>
+            <p>This panel will mirror the notebook-style legitimate vs fraud trend chart.</p>
+          </article>
+          <article class="viz-card">
+            <h3>Fraud Probability Distribution</h3>
+            <p>This panel will show how accounts spread across low to high risk buckets.</p>
+          </article>
+        </div>
+      </section>
 
       <section class="cell md">
         <h2>Step 2: Graph Construction</h2>
         <p>Graph edges/nodes are created in training pipeline and reflected in report/metrics outputs.</p>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>Entity Linking</h3>
+            <p>Accounts, devices, IPs, merchants, and countries are stitched into a heterogeneous fraud graph.</p>
+          </article>
+          <article class="detail-card">
+            <h3>Structure Signals</h3>
+            <p>Suspicious activity starts to appear as repeated shared infrastructure rather than isolated anomalies.</p>
+          </article>
+          <article class="detail-card">
+            <h3>What To Watch</h3>
+            <p>Node balance, edge variety, and average degree shape the quality of downstream relational features.</p>
+          </article>
+        </div>
       </section>
       <section class="cell code">
         <div class="toolbar">
@@ -108,10 +369,37 @@
         <pre>GET /api/ml/hetero-graph-summary</pre>
         <div id="out-hetero" class="out">Not executed.</div>
       </section>
+      <section class="cell">
+        <h2>Graph Composition</h2>
+        <div id="heteroViz" class="viz-grid">
+          <article class="viz-card">
+            <h3>Node Types</h3>
+            <p>Run the graph summary cell to inspect graph composition.</p>
+          </article>
+          <article class="viz-card">
+            <h3>Edge Types</h3>
+            <p>Edge classes and density notes will appear here.</p>
+          </article>
+        </div>
+        <div id="graphSketch" class="note" style="margin-top:12px;">A compact graph sketch will render here after the summary response arrives.</div>
+      </section>
 
       <section class="cell md">
         <h2>Step 3: Feature Engineering</h2>
         <p>Node-level behavioral features are computed (volume, timing, diversity, graph centrality).</p>
+      </section>
+      <section class="cell">
+        <h2>Feature Detailing</h2>
+        <div id="featureNotebookViz" class="viz-grid">
+          <article class="viz-card">
+            <h3>Fraud vs Legitimate Feature Gap</h3>
+            <p>Notebook-style feature-difference bars will render here.</p>
+          </article>
+          <article class="viz-card">
+            <h3>Feature Correlation Matrix</h3>
+            <p>This matrix will highlight which account features move together.</p>
+          </article>
+        </div>
       </section>
 
       <section class="cell md">
@@ -138,15 +426,54 @@
   "n_transactions": &lt;input&gt;,
   "n_accounts": &lt;input&gt;,
   "fraud_rate": &lt;input&gt;,
-  "random_seed": &lt;input&gt;
+  "random_seed": &lt;input&gt;,
+  "test_size": &lt;input&gt;,
+  "n_estimators_start": &lt;input&gt;,
+  "n_estimators_end": &lt;input&gt;,
+  "n_estimators_step": &lt;input&gt;,
+  "max_depth": &lt;input&gt;,
+  "min_samples_leaf": &lt;input&gt;,
+  "feature_set": &lt;input&gt;,
+  "fraud_ring_device_count": &lt;input&gt;,
+  "fraud_ring_ip_count": &lt;input&gt;,
+  "burst_fraction": &lt;input&gt;
 }</pre>
         <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
           <input class="in" id="nTx" type="number" value="3000" min="500" max="20000" />
           <input class="in" id="nAccounts" type="number" value="500" min="100" max="5000" />
           <input class="in" id="fraudRate" type="number" value="0.08" min="0.01" max="0.5" step="0.01" />
           <input class="in" id="seed" type="number" value="42" min="1" max="99999" />
+          <input class="in" id="testSize" type="number" value="0.25" min="0.1" max="0.49" step="0.01" />
+          <input class="in" id="estStart" type="number" value="40" min="20" max="400" />
+          <input class="in" id="estEnd" type="number" value="280" min="40" max="1200" />
+          <input class="in" id="estStep" type="number" value="40" min="10" max="200" />
+          <input class="in" id="maxDepth" type="number" value="10" min="3" max="40" />
+          <input class="in" id="minLeaf" type="number" value="2" min="1" max="20" />
+          <input class="in" id="featureSet" type="text" value="extended" />
+          <input class="in" id="ringDevices" type="number" value="6" min="2" max="30" />
+          <input class="in" id="ringIps" type="number" value="7" min="2" max="50" />
+          <input class="in" id="burstFraction" type="number" value="0.33" min="0.05" max="0.9" step="0.01" />
         </div>
         <div id="out-train" class="out">Not executed.</div>
+      </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="cases">Run Cell</button>
+        </div>
+        <pre>GET /api/ml/training-cases</pre>
+        <div id="out-cases" class="out">Not executed.</div>
+      </section>
+      <section class="cell code">
+        <div class="toolbar">
+          <span class="lang">Python (API Equivalent)</span>
+          <button data-run="runCase">Run Cell</button>
+        </div>
+        <pre>POST /api/ml/run-case?case_name=&lt;case&gt;</pre>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+          <input class="in" id="caseName" type="text" value="balanced_baseline" style="width:220px;" />
+        </div>
+        <div id="out-run-case" class="out">Not executed.</div>
       </section>
       <section class="cell code">
         <div class="toolbar">
@@ -155,6 +482,19 @@
         </div>
         <pre>GET /api/ml/training-history</pre>
         <div id="out-history" class="out">Not executed.</div>
+      </section>
+      <section class="cell">
+        <h2>Training History</h2>
+        <div id="historyViz" class="viz-grid">
+          <article class="viz-card">
+            <h3>ROC-AUC by Step</h3>
+            <p>Training history will render here when available.</p>
+          </article>
+          <article class="viz-card">
+            <h3>Interpretation</h3>
+            <p>Use this panel to judge stability, diminishing returns, and underfitting risk.</p>
+          </article>
+        </div>
       </section>
 
       <section class="cell md">
@@ -168,6 +508,32 @@
         </div>
         <pre>GET /api/ml/report</pre>
         <div id="out-report" class="out">Not executed.</div>
+      </section>
+      <section class="cell">
+        <h2>Model Diagnostics</h2>
+        <div id="reportViz" class="viz-grid">
+          <article class="viz-card">
+            <h3>Metrics</h3>
+            <p>Accuracy, precision, recall, F1, and ROC-AUC will appear here.</p>
+          </article>
+          <article class="viz-card">
+            <h3>Feature Importance</h3>
+            <p>Top fraud-driving features will render as ranked bars.</p>
+          </article>
+        </div>
+      </section>
+      <section class="cell">
+        <h2>Evaluation Detail</h2>
+        <div id="evaluationNotebookViz" class="viz-grid">
+          <article class="viz-card">
+            <h3>Confusion Matrix View</h3>
+            <p>Notebook-style confusion heatmap will render here.</p>
+          </article>
+          <article class="viz-card">
+            <h3>Performance Distribution</h3>
+            <p>Prediction probability spread and threshold-friendly diagnostics will appear here.</p>
+          </article>
+        </div>
       </section>
 
       <section class="cell md">
@@ -208,6 +574,19 @@
         <pre>GET /api/ml/simulate?n=5</pre>
         <div id="out-simulate" class="out">Not executed.</div>
       </section>
+      <section class="cell">
+        <h2>Risk Monitoring View</h2>
+        <div id="riskNotebookViz" class="viz-grid">
+          <article class="viz-card">
+            <h3>Top Risk Accounts</h3>
+            <p>This panel will mirror the notebook's highest-risk account ranking.</p>
+          </article>
+          <article class="viz-card">
+            <h3>Behavioral Detail</h3>
+            <p>A compact risk table will show why those accounts stand out.</p>
+          </article>
+        </div>
+      </section>
 
       <section class="cell md">
         <h2>Bonus: Why Graph ML is Better Than Traditional Fraud Detection</h2>
@@ -233,6 +612,19 @@
         </div>
         <pre>GET /api/ml/results-summary</pre>
         <div id="out-results" class="out">Not executed.</div>
+      </section>
+      <section class="cell">
+        <h2>Results Board</h2>
+        <div id="resultsViz" class="viz-grid">
+          <article class="viz-card">
+            <h3>Summary Cards</h3>
+            <p>Run the results summary endpoint to populate this board.</p>
+          </article>
+          <article class="viz-card">
+            <h3>Decision Notes</h3>
+            <p>This panel will summarize how to read the current confusion matrix and tradeoffs.</p>
+          </article>
+        </div>
       </section>
 
       <section class="cell md">
@@ -279,6 +671,27 @@
     </div>
 
     <script>
+      function fmt(value, digits = 2) {
+        if (value === null || value === undefined || value === "") return "-";
+        const num = Number(value);
+        return Number.isFinite(num) ? num.toFixed(digits) : String(value);
+      }
+
+      function fmtPct(value, digits = 1) {
+        if (value === null || value === undefined || value === "") return "-";
+        const num = Number(value);
+        return Number.isFinite(num) ? `${(num * 100).toFixed(digits)}%` : String(value);
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
       async function callApi(url, options = {}) {
         const res = await fetch(url, options);
         const text = await res.text();
@@ -289,13 +702,407 @@
       }
 
       function show(id, data) {
-        document.getElementById(id).textContent = typeof data === "string" ? data : JSON.stringify(data, null, 2);
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = typeof data === "string" ? data : JSON.stringify(data, null, 2);
+      }
+
+      function setHtml(id, html) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = html;
+      }
+
+      function showTopStatus(msg) {
+        const el = document.getElementById("topStatus");
+        if (!el) return;
+        el.textContent = msg;
+      }
+
+      function setHero(label, value) {
+        const el = document.getElementById(label);
+        if (el) el.textContent = value;
+      }
+
+      function renderMetricRows(rows) {
+        return rows.map((row) => `
+          <div class="metric-row">
+            <span>${escapeHtml(row.label)}</span>
+            <strong>${escapeHtml(String(row.value))}</strong>
+          </div>
+        `).join("");
+      }
+
+      function renderBarRows(rows, valueKey, formatter = (value) => String(value)) {
+        const maxValue = Math.max(...rows.map((row) => Number(row[valueKey]) || 0), 1);
+        return `<div class="bar-list">${rows.map((row) => {
+          const value = Number(row[valueKey]) || 0;
+          const width = Math.max(6, (value / maxValue) * 100);
+          return `
+            <div class="bar-row">
+              <span>${escapeHtml(row.label)}</span>
+              <div class="bar-track"><div class="bar-fill" style="width:${width}%"></div></div>
+              <strong>${escapeHtml(formatter(value, row))}</strong>
+            </div>
+          `;
+        }).join("")}</div>`;
+      }
+
+      function renderLineChart(seriesA, seriesB, labels) {
+        if (!labels.length) return "<p>No timeline data.</p>";
+        const width = 620;
+        const height = 240;
+        const pad = 28;
+        const values = [...seriesA, ...seriesB].map((value) => Number(value) || 0);
+        const maxValue = Math.max(...values, 1);
+        const xFor = (index) => pad + ((width - pad * 2) * index) / Math.max(labels.length - 1, 1);
+        const yFor = (value) => height - pad - ((height - pad * 2) * value) / maxValue;
+        const pathFor = (series) => series.map((value, index) => `${index === 0 ? "M" : "L"} ${xFor(index)} ${yFor(Number(value) || 0)}`).join(" ");
+        const ticks = [0, 0.25, 0.5, 0.75, 1].map((ratio) => {
+          const y = height - pad - (height - pad * 2) * ratio;
+          const value = Math.round(maxValue * ratio);
+          return `
+            <line x1="${pad}" y1="${y}" x2="${width - pad}" y2="${y}" stroke="rgba(29,39,38,0.10)" />
+            <text x="4" y="${y + 4}" font-size="10" fill="#5e746b" font-family="Segoe UI">${value}</text>
+          `;
+        }).join("");
+        const labelIndexes = [...new Set([0, Math.floor(labels.length / 2), labels.length - 1])];
+        const labelTicks = labelIndexes.map((index) => `
+          <text x="${xFor(index)}" y="${height - 6}" text-anchor="middle" font-size="10" fill="#5e746b" font-family="Segoe UI">${escapeHtml(labels[index].slice(5))}</text>
+        `).join("");
+        return `
+          <svg class="line-svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
+            ${ticks}
+            <path d="${pathFor(seriesA)}" fill="none" stroke="#2563eb" stroke-width="3"></path>
+            <path d="${pathFor(seriesB)}" fill="none" stroke="#dc2626" stroke-width="3"></path>
+            ${seriesA.map((value, index) => `<circle cx="${xFor(index)}" cy="${yFor(Number(value) || 0)}" r="3.5" fill="#2563eb"></circle>`).join("")}
+            ${seriesB.map((value, index) => `<circle cx="${xFor(index)}" cy="${yFor(Number(value) || 0)}" r="3.5" fill="#dc2626"></circle>`).join("")}
+            ${labelTicks}
+          </svg>
+        `;
+      }
+
+      function colorForHeat(value, maxAbs) {
+        const ratio = maxAbs > 0 ? Math.min(Math.abs(value) / maxAbs, 1) : 0;
+        return value >= 0 ? `rgba(220, 38, 38, ${0.12 + ratio * 0.45})` : `rgba(37, 99, 235, ${0.12 + ratio * 0.45})`;
+      }
+
+      function renderHeatmap(labels, values, formatter = (value) => fmt(value, 2)) {
+        const flat = values.flat().map((value) => Number(value) || 0);
+        const maxAbs = Math.max(...flat.map((value) => Math.abs(value)), 1);
+        return `
+          <div class="heatmap-grid" style="grid-template-columns: 110px repeat(${labels.length}, minmax(0, 1fr));">
+            <div></div>
+            ${labels.map((label) => `<div class="heatmap-cell" style="background:#f4ede0; font-weight:700;">${escapeHtml(label)}</div>`).join("")}
+            ${labels.map((rowLabel, rowIndex) => `
+              <div class="heatmap-cell" style="background:#f4ede0; font-weight:700;">${escapeHtml(rowLabel)}</div>
+              ${values[rowIndex].map((value) => `<div class="heatmap-cell" style="background:${colorForHeat(Number(value) || 0, maxAbs)};">${escapeHtml(formatter(value))}</div>`).join("")}
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderOverview(profile, hetero, status, history) {
+        const nodeTypeCount = hetero ? Object.keys(hetero.node_type_counts || {}).length : "-";
+        setHtml("overviewStats", `
+          <article class="stat-card"><span class="metric-label">Transactions</span><strong class="metric">${profile ? escapeHtml(String(profile.transactions)) : "-"}</strong></article>
+          <article class="stat-card"><span class="metric-label">Fraud Rate</span><strong class="metric">${profile ? escapeHtml(fmtPct(profile.fraud_rate, 2)) : "-"}</strong></article>
+          <article class="stat-card"><span class="metric-label">Node Types</span><strong class="metric">${nodeTypeCount}</strong></article>
+          <article class="stat-card"><span class="metric-label">Saved Models</span><strong class="metric">${status && status.model_count !== undefined ? escapeHtml(String(status.model_count)) : "-"}</strong></article>
+        `);
+        setHero("heroModel", status ? (status.trained ? "Trained" : "Not trained") : "Unknown");
+        if (hetero) {
+          const totalNodes = Object.values(hetero.node_type_counts || {}).reduce((sum, value) => sum + Number(value || 0), 0);
+          setHero("heroGraph", totalNodes ? `${totalNodes} nodes` : "Sparse");
+        }
+        const latest = history && Array.isArray(history.history) && history.history.length ? history.history[history.history.length - 1] : null;
+        setHero("heroRoc", latest ? fmt(latest.roc_auc, 3) : "No history");
+      }
+
+      function renderProfileViz(profile) {
+        const channels = Object.entries(profile.channel_distribution || {}).map(([label, value]) => ({ label, value: Number(value) }));
+        const countries = Object.entries(profile.country_distribution || {});
+        const riskyDevices = (profile.top_risky_devices || []).slice(0, 5).map((row) => ({
+          label: row.device_id,
+          value: Number(row.fraud_ratio || 0),
+          ratio: `${fmt(Number(row.fraud_ratio || 0) * 100, 1)}%`
+        }));
+        setHtml("profileViz", `
+          <article class="viz-card">
+            <h3>Amount Profile</h3>
+            ${renderMetricRows([
+              { label: "Transactions", value: profile.transactions },
+              { label: "Accounts", value: profile.accounts },
+              { label: "Fraud Rate", value: fmtPct(profile.fraud_rate, 2) },
+              { label: "Average Amount", value: fmt(profile.avg_amount, 2) },
+              { label: "P95 Amount", value: fmt(profile.p95_amount, 2) }
+            ])}
+          </article>
+          <article class="viz-card">
+            <h3>Channel Mix</h3>
+            ${channels.length ? renderBarRows(channels, "value", (value) => `${fmt(value, 0)}%`) : "<p>No channel data.</p>"}
+            <div class="note">Country spread: ${countries.map(([label, value]) => `${escapeHtml(label)} ${fmt(Number(value), 0)}%`).join(" | ") || "n/a"}</div>
+          </article>
+          <article class="viz-card">
+            <h3>Risky Devices</h3>
+            ${riskyDevices.length ? renderBarRows(riskyDevices.map((row) => ({ label: row.label, value: row.value, ratio: row.ratio })), "value", (_value, row) => row.ratio) : "<p>No risky-device data.</p>"}
+          </article>
+          <article class="viz-card">
+            <h3>Interpretation</h3>
+            <p>This profile confirms whether entity reuse and fraud concentration are strong enough to justify graph-aware learning.</p>
+          </article>
+        `);
+      }
+
+      function renderHeteroViz(summary) {
+        const nodeRows = Object.entries(summary.node_type_counts || {}).map(([label, value]) => ({ label, value: Number(value) }));
+        const edgeRows = Object.entries(summary.edge_type_counts || {}).map(([label, value]) => ({ label, value: Number(value) }));
+        setHtml("heteroViz", `
+          <article class="viz-card">
+            <h3>Node Types</h3>
+            ${nodeRows.length ? renderBarRows(nodeRows, "value", (value) => fmt(value, 0)) : "<p>No node data.</p>"}
+          </article>
+          <article class="viz-card">
+            <h3>Edge Types</h3>
+            ${edgeRows.length ? renderBarRows(edgeRows, "value", (value) => fmt(value, 0)) : "<p>No edge data.</p>"}
+            <div class="note">Average out degree: ${escapeHtml(fmt(summary.graph_density_view?.avg_out_degree, 2))}</div>
+          </article>
+        `);
+
+        if (!nodeRows.length) return;
+        const width = 620;
+        const height = 250;
+        const cx = width / 2;
+        const cy = height / 2;
+        const nodes = nodeRows.map((row, index) => {
+          const angle = (index / nodeRows.length) * Math.PI * 2;
+          return {
+            label: row.label,
+            x: cx + Math.cos(angle) * 160,
+            y: cy + Math.sin(angle) * 82,
+            r: Math.min(34, 12 + row.value * 0.03),
+            color: ["#136f63", "#b46a1e", "#3d5977", "#8f4d73", "#5a7c2f"][index % 5]
+          };
+        });
+        const lines = edgeRows.map((row, index) => {
+          const source = nodes[index % nodes.length];
+          const target = nodes[(index + 1) % nodes.length];
+          return `<line x1="${source.x}" y1="${source.y}" x2="${target.x}" y2="${target.y}" stroke="rgba(29,39,38,0.18)" stroke-width="${1 + (index % 3)}"></line>`;
+        }).join("");
+        const circles = nodes.map((node) => `
+          <g>
+            <circle cx="${node.x}" cy="${node.y}" r="${node.r}" fill="${node.color}" opacity="0.92"></circle>
+            <text x="${node.x}" y="${node.y + 4}" text-anchor="middle" font-size="11" fill="#ffffff" font-family="Segoe UI">${escapeHtml(node.label)}</text>
+          </g>
+        `).join("");
+        setHtml("graphSketch", `
+          <svg class="graph-svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
+            ${lines}
+            <circle cx="${cx}" cy="${cy}" r="22" fill="#142321"></circle>
+            <text x="${cx}" y="${cy + 4}" text-anchor="middle" font-size="11" fill="#dff1ec" font-family="Segoe UI">hub</text>
+            ${circles}
+          </svg>
+        `);
+      }
+
+      function renderHistoryViz(history) {
+        const rows = (history.history || []).map((item) => ({ label: `Step ${item.step}`, value: Number(item.roc_auc || 0) }));
+        const latest = rows.length ? rows[rows.length - 1].value : null;
+        const best = rows.length ? Math.max(...rows.map((row) => row.value)) : null;
+        setHtml("historyViz", `
+          <article class="viz-card">
+            <h3>ROC-AUC by Step</h3>
+            ${rows.length ? renderBarRows(rows, "value", (value) => fmt(value, 3)) : "<p>No training history available yet.</p>"}
+          </article>
+          <article class="viz-card">
+            <h3>Interpretation</h3>
+            <div class="note warn">
+              Latest ROC-AUC: ${latest !== null ? fmt(latest, 3) : "-"}<br />
+              Best ROC-AUC: ${best !== null ? fmt(best, 3) : "-"}<br />
+              Smooth gains suggest stable learning. Sharp jumps usually mean noisy signal or sensitive hyperparameters.
+            </div>
+          </article>
+        `);
+      }
+
+      function renderReportViz(report) {
+        const metrics = report.metrics || {};
+        const features = (report.top_features || []).slice(0, 6).map((item) => ({ label: item.feature, value: Number(item.importance || 0) }));
+        setHtml("reportViz", `
+          <article class="viz-card">
+            <h3>Metrics</h3>
+            ${renderMetricRows([
+              { label: "Accuracy", value: fmt(metrics.accuracy, 3) },
+              { label: "Precision", value: fmt(metrics.precision, 3) },
+              { label: "Recall", value: fmt(metrics.recall, 3) },
+              { label: "F1", value: fmt(metrics.f1, 3) },
+              { label: "ROC-AUC", value: fmt(metrics.roc_auc, 3) }
+            ])}
+          </article>
+          <article class="viz-card">
+            <h3>Feature Importance</h3>
+            ${features.length ? renderBarRows(features, "value", (value) => fmt(value, 3)) : "<p>No feature importance data.</p>"}
+          </article>
+        `);
+      }
+
+      function renderResultsViz(results) {
+        const metrics = results.performance || results.metrics || {};
+        const confusion = results.confusion_matrix || {};
+        setHtml("resultsViz", `
+          <article class="viz-card">
+            <h3>Summary Cards</h3>
+            <div class="stats-grid">
+              <article class="stat-card"><span class="metric-label">Precision</span><strong class="metric">${fmt(metrics.precision, 3)}</strong></article>
+              <article class="stat-card"><span class="metric-label">Recall</span><strong class="metric">${fmt(metrics.recall, 3)}</strong></article>
+              <article class="stat-card"><span class="metric-label">F1 Score</span><strong class="metric">${fmt(metrics.f1, 3)}</strong></article>
+              <article class="stat-card"><span class="metric-label">ROC-AUC</span><strong class="metric">${fmt(metrics.roc_auc, 3)}</strong></article>
+            </div>
+          </article>
+          <article class="viz-card">
+            <h3>Decision Notes</h3>
+            <div class="note ${Number(metrics.recall || 0) < 0.7 ? "warn" : ""}">
+              Confusion matrix: TN=${escapeHtml(String(confusion.tn ?? "-"))}, FP=${escapeHtml(String(confusion.fp ?? "-"))},
+              FN=${escapeHtml(String(confusion.fn ?? "-"))}, TP=${escapeHtml(String(confusion.tp ?? "-"))}. Use this to
+              judge whether the model is catching enough fraud without overwhelming manual review.
+            </div>
+          </article>
+        `);
+      }
+
+      function renderNotebookVisuals(data) {
+        const daily = data.daily_volume || [];
+        const labels = daily.map((item) => item.day);
+        const legit = daily.map((item) => Number(item.legitimate || 0));
+        const fraud = daily.map((item) => Number(item.fraud || 0));
+        setHtml("edaNotebookViz", `
+          <article class="viz-card">
+            <h3>Daily Transaction Volume</h3>
+            ${renderLineChart(legit, fraud, labels)}
+            <div class="note">Blue tracks legitimate activity and red tracks fraud volume, matching the reference notebook's daily trend view.</div>
+          </article>
+          <article class="viz-card">
+            <h3>Fraud Probability Distribution</h3>
+            ${renderBarRows((data.fraud_probability_distribution || []).map((row) => ({ label: row.label, value: row.count })), "value", (value) => fmt(value, 0))}
+            <div class="note">This replaces the notebook's probability-oriented dashboard with production scores from the live model.</div>
+          </article>
+        `);
+
+        setHtml("featureNotebookViz", `
+          <article class="viz-card">
+            <h3>Fraud vs Legitimate Feature Gap</h3>
+            ${renderBarRows((data.feature_gap || []).map((row) => ({ label: row.feature, value: Math.abs(Number(row.difference || 0)), signed: Number(row.difference || 0) })), "value", (_value, row) => fmt(row.signed, 3))}
+            <div class="note">Signed values show how much higher or lower fraud-linked accounts are than legitimate ones.</div>
+          </article>
+          <article class="viz-card">
+            <h3>Feature Correlation Matrix</h3>
+            ${renderHeatmap(data.correlation_matrix?.labels || [], data.correlation_matrix?.values || [])}
+          </article>
+        `);
+
+        setHtml("evaluationNotebookViz", `
+          <article class="viz-card">
+            <h3>Confusion Matrix View</h3>
+            ${renderHeatmap(["Pred Legit", "Pred Fraud"], data.confusion_heatmap || [[0, 0], [0, 0]], (value) => fmt(value, 0))}
+            <div class="note">Rows map to actual classes in order: legitimate, fraud.</div>
+          </article>
+          <article class="viz-card">
+            <h3>Performance Distribution</h3>
+            ${renderBarRows((data.fraud_probability_distribution || []).map((row) => ({ label: row.label, value: row.count })), "value", (value) => fmt(value, 0))}
+            <div class="note warn">This mirrors the notebook's threshold-oriented thinking by showing how much model mass sits near decision cutoffs.</div>
+          </article>
+        `);
+
+        setHtml("riskNotebookViz", `
+          <article class="viz-card">
+            <h3>Top Risk Accounts</h3>
+            ${renderBarRows((data.top_risk_accounts || []).map((row) => ({ label: row.account_id, value: Number(row.fraud_probability || 0) })), "value", (value) => fmt(value, 3))}
+            <div class="note">This is the frontend equivalent of the notebook's highest-risk account ranking.</div>
+          </article>
+          <article class="viz-card">
+            <h3>Behavioral Detail</h3>
+            <table class="mini-table">
+              <thead>
+                <tr><th>Account</th><th>Prob</th><th>Txns</th><th>Degree</th><th>Label</th></tr>
+              </thead>
+              <tbody>
+                ${(data.top_risk_accounts || []).slice(0, 8).map((row) => `
+                  <tr>
+                    <td>${escapeHtml(row.account_id)}</td>
+                    <td>${fmt(row.fraud_probability, 3)}</td>
+                    <td>${escapeHtml(String(row.txn_count_sent))}</td>
+                    <td>${escapeHtml(String(row.out_degree))}</td>
+                    <td>${escapeHtml(row.true_label)}</td>
+                  </tr>
+                `).join("") || "<tr><td colspan='5'>No risk data available.</td></tr>"}
+              </tbody>
+            </table>
+          </article>
+        `);
+      }
+
+      async function refreshNotebookVisualPanels() {
+        try {
+          const data = await callApi("/api/ml/notebook-visuals");
+          renderNotebookVisuals(data);
+        } catch {
+          // Keep existing placeholders if the visuals payload is unavailable.
+        }
+      }
+
+      async function refreshNotebookSummary() {
+        const [profile, hetero, status, history] = await Promise.allSettled([
+          callApi("/api/ml/data-profile"),
+          callApi("/api/ml/hetero-graph-summary"),
+          callApi("/api/ml/status"),
+          callApi("/api/ml/training-history")
+        ]);
+        renderOverview(
+          profile.status === "fulfilled" ? profile.value : null,
+          hetero.status === "fulfilled" ? hetero.value : null,
+          status.status === "fulfilled" ? status.value : null,
+          history.status === "fulfilled" ? history.value : null
+        );
       }
 
       async function run(which) {
+        const map = {
+          profile: "out-profile",
+          hetero: "out-hetero",
+          train: "out-train",
+          cases: "out-cases",
+          runCase: "out-run-case",
+          history: "out-history",
+          report: "out-report",
+          predict: "out-predict",
+          simulate: "out-simulate",
+          research: "out-research",
+          results: "out-results",
+          status: "out-report",
+          save: "out-report",
+          load: "out-report",
+          loadSelected: "out-report",
+          models: "out-report",
+          manifest: "out-manifest",
+          compare: "out-compare",
+          bundle: "out-bundle"
+        };
+        if (map[which]) show(map[which], "Running...");
+        setHero("heroStatus", `Running ${which}`);
+        if (["status", "save", "load", "models", "manifest", "compare", "bundle", "runCase"].includes(which)) {
+          showTopStatus(`Top Actions: Running '${which}' ...`);
+        }
         try {
-          if (which === "profile") show("out-profile", await callApi("/api/ml/data-profile"));
-          if (which === "hetero") show("out-hetero", await callApi("/api/ml/hetero-graph-summary"));
+          if (which === "profile") {
+            const data = await callApi("/api/ml/data-profile");
+            show("out-profile", data);
+            renderProfileViz(data);
+          }
+          if (which === "hetero") {
+            const data = await callApi("/api/ml/hetero-graph-summary");
+            show("out-hetero", data);
+            renderHeteroViz(data);
+          }
           if (which === "train") show("out-train", await callApi("/api/ml/train", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -303,11 +1110,34 @@
               n_transactions: Number(document.getElementById("nTx").value),
               n_accounts: Number(document.getElementById("nAccounts").value),
               fraud_rate: Number(document.getElementById("fraudRate").value),
-              random_seed: Number(document.getElementById("seed").value)
+              random_seed: Number(document.getElementById("seed").value),
+              test_size: Number(document.getElementById("testSize").value),
+              n_estimators_start: Number(document.getElementById("estStart").value),
+              n_estimators_end: Number(document.getElementById("estEnd").value),
+              n_estimators_step: Number(document.getElementById("estStep").value),
+              max_depth: Number(document.getElementById("maxDepth").value),
+              min_samples_leaf: Number(document.getElementById("minLeaf").value),
+              feature_set: String(document.getElementById("featureSet").value || "extended"),
+              fraud_ring_device_count: Number(document.getElementById("ringDevices").value),
+              fraud_ring_ip_count: Number(document.getElementById("ringIps").value),
+              burst_fraction: Number(document.getElementById("burstFraction").value)
             })
           }));
-          if (which === "history") show("out-history", await callApi("/api/ml/training-history"));
-          if (which === "report") show("out-report", await callApi("/api/ml/report"));
+          if (which === "cases") show("out-cases", await callApi("/api/ml/training-cases"));
+          if (which === "runCase") {
+            const caseName = encodeURIComponent(document.getElementById("caseName").value);
+            show("out-run-case", await callApi(`/api/ml/run-case?case_name=${caseName}`, { method: "POST" }));
+          }
+          if (which === "history") {
+            const data = await callApi("/api/ml/training-history");
+            show("out-history", data);
+            renderHistoryViz(data);
+          }
+          if (which === "report") {
+            const data = await callApi("/api/ml/report");
+            show("out-report", data);
+            renderReportViz(data);
+          }
           if (which === "predict") show("out-predict", await callApi("/api/ml/predict", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -318,13 +1148,21 @@
           }));
           if (which === "simulate") show("out-simulate", await callApi("/api/ml/simulate?n=5"));
           if (which === "research") show("out-research", await callApi("/api/ml/research"));
-          if (which === "results") show("out-results", await callApi("/api/ml/results-summary"));
+          if (which === "results") {
+            const data = await callApi("/api/ml/results-summary");
+            show("out-results", data);
+            renderResultsViz(data);
+          }
           if (which === "status") show("out-report", await callApi("/api/ml/status"));
           if (which === "save") show("out-report", await callApi("/api/ml/save", { method: "POST" }));
           if (which === "load") show("out-report", await callApi("/api/ml/load", { method: "POST" }));
           if (which === "models") {
             const models = await callApi("/api/ml/models");
             show("out-report", models);
+            const sel = document.getElementById("selectedModel");
+            if (sel) {
+              sel.innerHTML = `<option value=\"\">Select model tag...</option>` + models.map((m) => `<option value=\"${m}\">${m}</option>`).join("");
+            }
             if (models.length >= 2) {
               document.getElementById("baseTag").value = models[1];
               document.getElementById("candidateTag").value = models[0];
@@ -333,6 +1171,12 @@
               document.getElementById("candidateTag").value = models[0];
             }
           }
+          if (which === "loadSelected") {
+            const sel = document.getElementById("selectedModel");
+            const tag = sel ? sel.value : "";
+            if (!tag) throw new Error("Please choose a model tag in 'Select model tag...'");
+            show("out-report", await callApi(`/api/ml/load?model_tag=${encodeURIComponent(tag)}`, { method: "POST" }));
+          }
           if (which === "manifest") show("out-manifest", await callApi("/api/ml/model-manifest"));
           if (which === "compare") {
             const base = encodeURIComponent(document.getElementById("baseTag").value);
@@ -340,42 +1184,57 @@
             show("out-compare", await callApi(`/api/ml/compare?base_tag=${base}&candidate_tag=${cand}`));
           }
           if (which === "bundle") show("out-bundle", await callApi("/api/ml/export-bundle", { method: "POST" }));
+          if (["status", "save", "load", "models", "loadSelected", "manifest", "compare", "bundle", "runCase"].includes(which)) {
+            showTopStatus(`Top Actions: '${which}' completed successfully.`);
+          }
+          if (["profile", "hetero", "history", "report", "results", "status", "models", "load", "loadSelected", "train"].includes(which)) {
+            await refreshNotebookSummary();
+            await refreshNotebookVisualPanels();
+          }
+          setHero("heroStatus", "Ready");
         } catch (e) {
-          const map = {
-            profile: "out-profile",
-            hetero: "out-hetero",
-            train: "out-train",
-            history: "out-history",
-            report: "out-report",
-            predict: "out-predict",
-            simulate: "out-simulate",
-            research: "out-research",
-            results: "out-results",
-            status: "out-report",
-            save: "out-report",
-            load: "out-report",
-            models: "out-report",
-            manifest: "out-manifest",
-            compare: "out-compare",
-            bundle: "out-bundle"
-          };
           show(map[which], `Error: ${e.message}`);
+          if (["status", "save", "load", "models", "loadSelected", "manifest", "compare", "bundle", "runCase"].includes(which)) {
+            showTopStatus(`Top Actions Error: ${e.message}`);
+          }
+          setHero("heroStatus", "Check error");
         }
       }
 
-      document.querySelectorAll("button[data-run]").forEach((btn) => {
-        btn.addEventListener("click", () => run(btn.dataset.run));
-      });
-      document.getElementById("statusBtn").addEventListener("click", () => run("status"));
-      document.getElementById("saveBtn").addEventListener("click", () => run("save"));
-      document.getElementById("loadBtn").addEventListener("click", () => run("load"));
-      document.getElementById("modelsBtn").addEventListener("click", () => run("models"));
-      document.getElementById("runAllBtn").addEventListener("click", async () => {
-        for (const step of ["profile", "hetero", "train", "history", "report", "predict", "simulate", "research", "results", "bundle", "save", "models", "manifest"]) {
-          // keep sequential order like notebook execution
-          await run(step);
+      function bindNotebookHandlers() {
+        document.querySelectorAll("button[data-run]").forEach((btn) => {
+          btn.addEventListener("click", () => run(btn.dataset.run));
+        });
+        const statusBtn = document.getElementById("statusBtn");
+        const saveBtn = document.getElementById("saveBtn");
+        const loadBtn = document.getElementById("loadBtn");
+        const modelsBtn = document.getElementById("modelsBtn");
+        const loadSelectedBtn = document.getElementById("loadSelectedBtn");
+        const runAllBtn = document.getElementById("runAllBtn");
+
+        if (statusBtn) statusBtn.addEventListener("click", () => run("status"));
+        if (saveBtn) saveBtn.addEventListener("click", () => run("save"));
+        if (loadBtn) loadBtn.addEventListener("click", () => run("load"));
+        if (modelsBtn) modelsBtn.addEventListener("click", () => run("models"));
+        if (loadSelectedBtn) loadSelectedBtn.addEventListener("click", () => run("loadSelected"));
+        if (runAllBtn) {
+          runAllBtn.addEventListener("click", async () => {
+            for (const step of ["profile", "hetero", "cases", "runCase", "train", "history", "report", "predict", "simulate", "research", "results", "bundle", "save", "models", "manifest"]) {
+              // keep sequential order like notebook execution
+              await run(step);
+            }
+          });
         }
-      });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", bindNotebookHandlers);
+      } else {
+        bindNotebookHandlers();
+      }
+
+      // auto-populate models and visual sections at startup
+      Promise.allSettled([run("models"), run("profile"), run("hetero"), run("history"), run("results"), refreshNotebookVisualPanels()]);
     </script>
   </body>
 </html>

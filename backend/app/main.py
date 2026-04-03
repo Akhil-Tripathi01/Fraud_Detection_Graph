@@ -26,6 +26,11 @@ app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
 
 @app.get("/", include_in_schema=False)
 def root() -> FileResponse:
+    return FileResponse(frontend_dir / "notebook.html")
+
+
+@app.get("/dashboard", include_in_schema=False)
+def dashboard() -> FileResponse:
     return FileResponse(frontend_dir / "index.html")
 
 

@@ -10,7 +10,22 @@ def test_ml_api_train_report_predict():
 
     train_resp = client.post(
         "/api/ml/train",
-        json={"n_transactions": 900, "n_accounts": 180, "fraud_rate": 0.1, "random_seed": 9},
+        json={
+            "n_transactions": 900,
+            "n_accounts": 180,
+            "fraud_rate": 0.1,
+            "random_seed": 9,
+            "test_size": 0.3,
+            "n_estimators_start": 40,
+            "n_estimators_end": 160,
+            "n_estimators_step": 40,
+            "max_depth": 12,
+            "min_samples_leaf": 2,
+            "feature_set": "extended",
+            "fraud_ring_device_count": 5,
+            "fraud_ring_ip_count": 6,
+            "burst_fraction": 0.4,
+        },
     )
     assert train_resp.status_code == 200
     train_data = train_resp.json()
@@ -18,6 +33,8 @@ def test_ml_api_train_report_predict():
     assert "top_features" in train_data and len(train_data["top_features"]) > 0
     assert "confusion_matrix" in train_data
     assert "training_history" in train_data and len(train_data["training_history"]) > 0
+    assert "training_config" in train_data
+    assert train_data["training_config"]["feature_set"] == "extended"
 
     report_resp = client.get("/api/ml/report")
     assert report_resp.status_code == 200
@@ -103,6 +120,18 @@ def test_ml_api_train_report_predict():
     bundle = bundle_resp.json()
     assert bundle["bundle_name"] == "test_bundle_api"
     assert len(bundle["files"]) >= 4
+
+    cases_resp = client.get("/api/ml/training-cases")
+    assert cases_resp.status_code == 200
+    cases = cases_resp.json()
+    assert len(cases) >= 3
+    assert any(c["case_name"] == "balanced_baseline" for c in cases)
+
+    run_case_resp = client.post("/api/ml/run-case?case_name=ring_heavy")
+    assert run_case_resp.status_code == 200
+    run_case = run_case_resp.json()
+    assert run_case["case_name"] == "ring_heavy"
+    assert "training_config" in run_case
 
     predict_resp = client.post("/api/ml/predict", json={"account_id": "ACC_UNKNOWN_001"})
     assert predict_resp.status_code == 200

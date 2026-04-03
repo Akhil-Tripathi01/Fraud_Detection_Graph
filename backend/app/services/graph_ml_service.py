@@ -27,6 +27,7 @@ class TrainedArtifacts:
     top_features: list[dict]
     confusion_matrix: dict
     training_history: list[dict]
+    training_config: dict
 
 
 class GraphMLService:
@@ -40,9 +41,63 @@ class GraphMLService:
         self.model_dir.mkdir(parents=True, exist_ok=True)
         self.bundle_dir = Path(__file__).resolve().parents[3] / "output" / "bundles"
         self.bundle_dir.mkdir(parents=True, exist_ok=True)
+        self.training_cases = {
+            "balanced_baseline": {
+                "description": "Balanced production baseline with extended feature set.",
+                "config": {
+                    "n_transactions": 3000,
+                    "n_accounts": 500,
+                    "fraud_rate": 0.08,
+                    "random_seed": 42,
+                    "feature_set": "extended",
+                },
+            },
+            "high_imbalance": {
+                "description": "Harder class imbalance case with lower fraud rate.",
+                "config": {
+                    "n_transactions": 5000,
+                    "n_accounts": 700,
+                    "fraud_rate": 0.03,
+                    "random_seed": 17,
+                    "feature_set": "extended",
+                    "test_size": 0.3,
+                },
+            },
+            "ring_heavy": {
+                "description": "Ring-heavy fraud pattern with stronger shared infrastructure.",
+                "config": {
+                    "n_transactions": 3500,
+                    "n_accounts": 450,
+                    "fraud_rate": 0.12,
+                    "random_seed": 24,
+                    "fraud_ring_device_count": 3,
+                    "fraud_ring_ip_count": 4,
+                    "burst_fraction": 0.55,
+                    "feature_set": "extended",
+                },
+            },
+            "stress_large": {
+                "description": "Large scenario to test scale and stability.",
+                "config": {
+                    "n_transactions": 12000,
+                    "n_accounts": 1800,
+                    "fraud_rate": 0.07,
+                    "random_seed": 91,
+                    "feature_set": "core",
+                    "n_estimators_end": 220,
+                },
+            },
+        }
 
     def generate_transaction_dataset(
-        self, n_transactions: int = 3000, n_accounts: int = 500, fraud_rate: float = 0.08, random_seed: int = 42
+        self,
+        n_transactions: int = 3000,
+        n_accounts: int = 500,
+        fraud_rate: float = 0.08,
+        random_seed: int = 42,
+        fraud_ring_device_count: int = 6,
+        fraud_ring_ip_count: int = 7,
+        burst_fraction: float = 0.33,
     ) -> pd.DataFrame:
         rng = np.random.default_rng(random_seed)
         accounts = [f"ACC_{i:04d}" for i in range(n_accounts)]
@@ -69,8 +124,8 @@ class GraphMLService:
         ips = rng.choice(ip_pool, size=n_transactions, replace=True).astype(object)
 
         # Fraud rings reuse the same infrastructure.
-        ring_devices = [f"DEV_RING_{i:02d}" for i in range(6)]
-        ring_ips = [f"172.31.0.{i}" for i in range(1, 8)]
+        ring_devices = [f"DEV_RING_{i:02d}" for i in range(fraud_ring_device_count)]
+        ring_ips = [f"172.31.0.{i}" for i in range(1, fraud_ring_ip_count + 1)]
         devices[fraud_idx] = rng.choice(ring_devices, size=len(fraud_idx), replace=True)
         ips[fraud_idx] = rng.choice(ring_ips, size=len(fraud_idx), replace=True)
 
@@ -96,7 +151,7 @@ class GraphMLService:
         timestamps = pd.to_datetime(timestamps, utc=True)
 
         # Fraud burst behavior: compress a share of fraud transactions into short windows.
-        burst_count = max(1, len(fraud_idx) // 3)
+        burst_count = max(1, int(len(fraud_idx) * burst_fraction))
         burst_idx = fraud_idx[:burst_count]
         burst_base = pd.Timestamp("2026-03-24T01:00:00Z")
         timestamps_values = timestamps.to_numpy().copy()
@@ -207,13 +262,35 @@ class GraphMLService:
         return features
 
     def train_pipeline(
-        self, n_transactions: int = 3000, n_accounts: int = 500, fraud_rate: float = 0.08, random_seed: int = 42
+        self,
+        n_transactions: int = 3000,
+        n_accounts: int = 500,
+        fraud_rate: float = 0.08,
+        random_seed: int = 42,
+        test_size: float = 0.25,
+        n_estimators_start: int = 40,
+        n_estimators_end: int = 280,
+        n_estimators_step: int = 40,
+        max_depth: int = 10,
+        min_samples_leaf: int = 2,
+        feature_set: str = "extended",
+        fraud_ring_device_count: int = 6,
+        fraud_ring_ip_count: int = 7,
+        burst_fraction: float = 0.33,
     ) -> TrainedArtifacts:
-        self.df = self.generate_transaction_dataset(n_transactions, n_accounts, fraud_rate, random_seed)
+        self.df = self.generate_transaction_dataset(
+            n_transactions=n_transactions,
+            n_accounts=n_accounts,
+            fraud_rate=fraud_rate,
+            random_seed=random_seed,
+            fraud_ring_device_count=fraud_ring_device_count,
+            fraud_ring_ip_count=fraud_ring_ip_count,
+            burst_fraction=burst_fraction,
+        )
         self.graph = self.build_graph(self.df)
         self.nodes_df = self.compute_node_features(self.df, self.graph)
 
-        feature_cols = [
+        extended_feature_cols = [
             "total_sent",
             "avg_sent",
             "txn_count_sent",
@@ -234,25 +311,45 @@ class GraphMLService:
             "pagerank",
             "clustering_coef",
         ]
+        core_feature_cols = [
+            "total_sent",
+            "avg_sent",
+            "txn_count_sent",
+            "unique_receivers",
+            "avg_time_diff_sent",
+            "total_received",
+            "avg_received",
+            "txn_count_received",
+            "unique_senders",
+            "in_degree",
+            "out_degree",
+            "pagerank",
+            "clustering_coef",
+        ]
+        feature_cols = core_feature_cols if feature_set == "core" else extended_feature_cols
 
         x = self.nodes_df[feature_cols]
         y = self.nodes_df["label"]
-        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=random_seed, stratify=y)
+        x_train, x_test, y_train, y_test = train_test_split(
+            x, y, test_size=test_size, random_state=random_seed, stratify=y
+        )
         classes = np.array(sorted(y_train.unique()))
         class_weights = compute_class_weight(class_weight="balanced", classes=classes, y=y_train.to_numpy())
         class_weight_map = {int(label): float(weight) for label, weight in zip(classes, class_weights, strict=False)}
 
         self.model = RandomForestClassifier(
-            n_estimators=40,
-            max_depth=10,
-            min_samples_leaf=2,
+            n_estimators=n_estimators_start,
+            max_depth=max_depth,
+            min_samples_leaf=min_samples_leaf,
             random_state=random_seed,
             class_weight=class_weight_map,
             n_jobs=1,
             warm_start=True,
         )
         training_history = []
-        estimator_schedule = [40, 80, 120, 180, 240, 280]
+        estimator_schedule = list(range(n_estimators_start, n_estimators_end + 1, n_estimators_step))
+        if estimator_schedule[-1] != n_estimators_end:
+            estimator_schedule.append(n_estimators_end)
         for step, n_estimators in enumerate(estimator_schedule, start=1):
             self.model.set_params(n_estimators=n_estimators)
             self.model.fit(x_train, y_train)
@@ -300,6 +397,22 @@ class GraphMLService:
             top_features=top_features,
             confusion_matrix=confusion,
             training_history=training_history,
+            training_config={
+                "n_transactions": n_transactions,
+                "n_accounts": n_accounts,
+                "fraud_rate": fraud_rate,
+                "random_seed": random_seed,
+                "test_size": test_size,
+                "n_estimators_start": n_estimators_start,
+                "n_estimators_end": n_estimators_end,
+                "n_estimators_step": n_estimators_step,
+                "max_depth": max_depth,
+                "min_samples_leaf": min_samples_leaf,
+                "feature_set": feature_set,
+                "fraud_ring_device_count": fraud_ring_device_count,
+                "fraud_ring_ip_count": fraud_ring_ip_count,
+                "burst_fraction": burst_fraction,
+            },
         )
         return self.artifacts
 
@@ -322,6 +435,7 @@ class GraphMLService:
             "top_features": self.artifacts.top_features,
             "confusion_matrix": self.artifacts.confusion_matrix,
             "training_history": self.artifacts.training_history,
+            "training_config": self.artifacts.training_config,
         }
 
     def data_profile(self) -> dict:
@@ -449,6 +563,92 @@ class GraphMLService:
                 "graph_edges": self.artifacts.graph_edges,
                 "fraud_rate": round(float(self.df["label"].mean()), 4),
             },
+        }
+
+    def notebook_visuals(self) -> dict:
+        self.ensure_trained()
+        assert self.artifacts is not None
+        assert self.nodes_df is not None
+        assert self.df is not None
+        assert self.model is not None
+
+        timeline = (
+            self.df.assign(day=self.df["timestamp"].dt.floor("D"))
+            .groupby(["day", "label"])["txn_id"]
+            .count()
+            .unstack(fill_value=0)
+            .rename(columns={0: "legitimate", 1: "fraud"})
+            .reset_index()
+        )
+        daily_volume = [
+            {
+                "day": row["day"].strftime("%Y-%m-%d"),
+                "legitimate": int(row.get("legitimate", 0)),
+                "fraud": int(row.get("fraud", 0)),
+            }
+            for _, row in timeline.iterrows()
+        ]
+
+        feature_cols = self.artifacts.feature_columns
+        grouped_means = self.nodes_df.groupby("label")[feature_cols].mean()
+        fraud_row = grouped_means.loc[1] if 1 in grouped_means.index else pd.Series(0, index=feature_cols)
+        legit_row = grouped_means.loc[0] if 0 in grouped_means.index else pd.Series(0, index=feature_cols)
+        feature_gap = (
+            (fraud_row - legit_row)
+            .sort_values(key=lambda s: s.abs(), ascending=False)
+            .head(10)
+            .reset_index()
+        )
+        feature_gap.columns = ["feature", "difference"]
+
+        corr_cols = feature_cols[:8] + ["label"]
+        corr_matrix = self.nodes_df[corr_cols].corr().round(3)
+
+        probabilities = self.model.predict_proba(self.nodes_df[feature_cols])[:, 1]
+        risk_df = self.nodes_df[["account_id", "label"] + feature_cols].copy()
+        risk_df["fraud_probability"] = probabilities
+        risk_df["predicted_label"] = np.where(risk_df["fraud_probability"] >= 0.5, "Fraud", "Legitimate")
+        top_risk = (
+            risk_df.sort_values("fraud_probability", ascending=False)
+            .head(10)[["account_id", "fraud_probability", "predicted_label", "label", "total_sent", "txn_count_sent", "out_degree"]]
+            .rename(columns={"label": "true_label"})
+            .to_dict(orient="records")
+        )
+        for row in top_risk:
+            row["fraud_probability"] = round(float(row["fraud_probability"]), 4)
+            row["total_sent"] = round(float(row["total_sent"]), 2)
+            row["txn_count_sent"] = int(row["txn_count_sent"])
+            row["out_degree"] = int(row["out_degree"])
+            row["true_label"] = "Fraud" if int(row["true_label"]) == 1 else "Legitimate"
+
+        hist_counts, bin_edges = np.histogram(probabilities, bins=[0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
+        fraud_probability_distribution = [
+            {
+                "label": f"{bin_edges[i]:.1f}-{bin_edges[i + 1]:.1f}",
+                "count": int(hist_counts[i]),
+            }
+            for i in range(len(hist_counts))
+        ]
+
+        confusion = self.artifacts.confusion_matrix
+        confusion_heatmap = [
+            [int(confusion["tn"]), int(confusion["fp"])],
+            [int(confusion["fn"]), int(confusion["tp"])],
+        ]
+
+        return {
+            "daily_volume": daily_volume,
+            "feature_gap": [
+                {"feature": row["feature"], "difference": round(float(row["difference"]), 4)}
+                for _, row in feature_gap.iterrows()
+            ],
+            "correlation_matrix": {
+                "labels": corr_cols,
+                "values": corr_matrix.values.tolist(),
+            },
+            "confusion_heatmap": confusion_heatmap,
+            "top_risk_accounts": top_risk,
+            "fraud_probability_distribution": fraud_probability_distribution,
         }
 
     def training_history(self) -> dict:
@@ -748,6 +948,26 @@ class GraphMLService:
         score = deltas["roc_auc_delta"] * 2 + deltas["f1_delta"] + deltas["recall_delta"] * 0.5
         winner = candidate_tag if score >= 0 else base_tag
         return {"base_tag": base_tag, "candidate_tag": candidate_tag, "deltas": deltas, "winner": winner}
+
+    def list_training_cases(self) -> list[dict]:
+        return [
+            {"case_name": name, "description": payload["description"], "config": payload["config"]}
+            for name, payload in self.training_cases.items()
+        ]
+
+    def run_training_case(self, case_name: str) -> dict:
+        if case_name not in self.training_cases:
+            raise KeyError(f"Unknown case: {case_name}")
+        payload = self.training_cases[case_name]
+        self.train_pipeline(**payload["config"])
+        data = self.metrics()
+        return {
+            "case_name": case_name,
+            "message": f"Training case '{case_name}' executed.",
+            "trained_at": data["trained_at"],
+            "metrics": data["metrics"],
+            "training_config": data["training_config"],
+        }
 
 
 graph_ml_service = GraphMLService()

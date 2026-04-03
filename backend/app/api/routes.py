@@ -17,6 +17,9 @@ from backend.app.models.schemas import (
     MLModelCatalogEntry,
     MLModelCompareResponse,
     MLModelManifestResponse,
+    MLNotebookVisualsResponse,
+    MLTrainingCaseEntry,
+    MLTrainingCaseRunResponse,
     MLPredictRequest,
     MLPredictResponse,
     MLResearchResponse,
@@ -88,6 +91,16 @@ def train_graph_ml(payload: MLTrainRequest) -> MLTrainResponse:
         n_accounts=payload.n_accounts,
         fraud_rate=payload.fraud_rate,
         random_seed=payload.random_seed,
+        test_size=payload.test_size,
+        n_estimators_start=payload.n_estimators_start,
+        n_estimators_end=payload.n_estimators_end,
+        n_estimators_step=payload.n_estimators_step,
+        max_depth=payload.max_depth,
+        min_samples_leaf=payload.min_samples_leaf,
+        feature_set=payload.feature_set,
+        fraud_ring_device_count=payload.fraud_ring_device_count,
+        fraud_ring_ip_count=payload.fraud_ring_ip_count,
+        burst_fraction=payload.burst_fraction,
     )
     data = graph_ml_service.metrics()
     return MLTrainResponse(
@@ -102,6 +115,7 @@ def train_graph_ml(payload: MLTrainRequest) -> MLTrainResponse:
         top_features=data["top_features"],
         confusion_matrix=data["confusion_matrix"],
         training_history=data["training_history"],
+        training_config=data["training_config"],
     )
 
 
@@ -120,6 +134,7 @@ def get_graph_ml_metrics() -> MLTrainResponse:
         top_features=data["top_features"],
         confusion_matrix=data["confusion_matrix"],
         training_history=data["training_history"],
+        training_config=data["training_config"],
     )
 
 
@@ -169,6 +184,11 @@ def get_ml_visual_summary() -> MLVisualSummaryResponse:
     return MLVisualSummaryResponse(**graph_ml_service.visual_summary())
 
 
+@router.get("/ml/notebook-visuals", response_model=MLNotebookVisualsResponse)
+def get_ml_notebook_visuals() -> MLNotebookVisualsResponse:
+    return MLNotebookVisualsResponse(**graph_ml_service.notebook_visuals())
+
+
 @router.get("/ml/training-history", response_model=MLTrainingHistoryResponse)
 def get_ml_training_history() -> MLTrainingHistoryResponse:
     return MLTrainingHistoryResponse(**graph_ml_service.training_history())
@@ -210,6 +230,16 @@ def run_ml_config(config_name: str = Query(..., min_length=1)) -> MLConfigRunRes
 @router.post("/ml/export-bundle", response_model=MLBundleExportResponse)
 def export_ml_bundle(bundle_name: str | None = Query(default=None)) -> MLBundleExportResponse:
     return MLBundleExportResponse(**graph_ml_service.export_bundle(bundle_name=bundle_name))
+
+
+@router.get("/ml/training-cases", response_model=list[MLTrainingCaseEntry])
+def get_ml_training_cases() -> list[MLTrainingCaseEntry]:
+    return [MLTrainingCaseEntry(**item) for item in graph_ml_service.list_training_cases()]
+
+
+@router.post("/ml/run-case", response_model=MLTrainingCaseRunResponse)
+def run_ml_training_case(case_name: str = Query(..., min_length=3)) -> MLTrainingCaseRunResponse:
+    return MLTrainingCaseRunResponse(**graph_ml_service.run_training_case(case_name))
 
 
 @router.get("/ml/status", response_model=MLStatusResponse)

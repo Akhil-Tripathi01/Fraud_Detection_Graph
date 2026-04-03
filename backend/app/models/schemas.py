@@ -65,6 +65,16 @@ class MLTrainRequest(BaseModel):
     n_accounts: int = Field(default=500, ge=100, le=5000)
     fraud_rate: float = Field(default=0.08, gt=0.01, lt=0.5)
     random_seed: int = Field(default=42, ge=1, le=99999)
+    test_size: float = Field(default=0.25, gt=0.1, lt=0.5)
+    n_estimators_start: int = Field(default=40, ge=20, le=400)
+    n_estimators_end: int = Field(default=280, ge=40, le=1200)
+    n_estimators_step: int = Field(default=40, ge=10, le=200)
+    max_depth: int = Field(default=10, ge=3, le=40)
+    min_samples_leaf: int = Field(default=2, ge=1, le=20)
+    feature_set: Literal["core", "extended"] = "extended"
+    fraud_ring_device_count: int = Field(default=6, ge=2, le=30)
+    fraud_ring_ip_count: int = Field(default=7, ge=2, le=50)
+    burst_fraction: float = Field(default=0.33, gt=0.05, lt=0.9)
 
 
 class MLEvaluationMetrics(BaseModel):
@@ -88,6 +98,7 @@ class MLTrainResponse(BaseModel):
     top_features: list[dict]
     confusion_matrix: dict
     training_history: list[dict] = []
+    training_config: dict = {}
 
 
 class MLPredictRequest(BaseModel):
@@ -152,6 +163,15 @@ class MLVisualSummaryResponse(BaseModel):
     feature_importance_series: list[dict]
     risk_distribution: list[dict]
     graph_snapshot: dict
+
+
+class MLNotebookVisualsResponse(BaseModel):
+    daily_volume: list[dict]
+    feature_gap: list[dict]
+    correlation_matrix: dict
+    confusion_heatmap: list[list[int]]
+    top_risk_accounts: list[dict]
+    fraud_probability_distribution: list[dict]
 
 
 class MLConfigRunResponse(BaseModel):
@@ -228,3 +248,17 @@ class MLModelCompareResponse(BaseModel):
     candidate_tag: str
     deltas: dict
     winner: str
+
+
+class MLTrainingCaseEntry(BaseModel):
+    case_name: str
+    description: str
+    config: dict
+
+
+class MLTrainingCaseRunResponse(BaseModel):
+    case_name: str
+    message: str
+    trained_at: datetime
+    metrics: dict
+    training_config: dict

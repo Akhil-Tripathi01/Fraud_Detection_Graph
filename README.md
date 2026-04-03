@@ -124,6 +124,15 @@ Open:
 - `http://127.0.0.1:8000/notebook`
 - `http://127.0.0.1:8000/docs`
 
+One-click startup (recommended on Windows):
+
+```powershell
+.\run_project.ps1
+```
+
+Or double-click `run_project.bat`.
+
+
 ## Main APIs
 
 - `GET /api/health`
